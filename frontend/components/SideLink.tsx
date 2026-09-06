@@ -1,0 +1,94 @@
+"use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
+import { ReactNode } from "react";
+import { useSidebar } from "./SidebarContext";
+
+interface SideLinkProps {
+  icon: ReactNode;
+  label: string;
+  link: string;
+}
+
+const SideLink = ({ icon, label, link }: SideLinkProps) => {
+  const { setOpenMobileSidebar, isExpanded } = useSidebar();
+  const pathName = usePathname();
+  return (
+    <li
+      className={`h-9  w-50 mx-auto flex items-center mb-2.5    hover:text-primary cursor-pointer`}
+    >
+      <Link
+        onClick={() => setOpenMobileSidebar(false)}
+        href={link}
+        className={`${
+          pathName === link ? "text-primary" : ""
+        } flex items-center hover:text-primary transition w-full h-full  duration-150 gap-2.5`}
+      >
+        {icon}
+        <p
+          className={`capitalize hidden md:block xl:hidden transition-all  duration-150 ${isExpanded ? "w-full opacity-100 translate-x-0" : " opacity-0 -translate-x-0.5"}`}
+        >
+          {label}
+        </p>
+        <p className={`capitalize md:hidden xl:block`}>{label}</p>
+      </Link>
+    </li>
+  );
+};
+
+export default SideLink;
+
+interface AccountLinksProps {
+  icon: ReactNode;
+  label: string;
+  link?: string;
+}
+
+export function AccountLinks({ link, label, icon }: AccountLinksProps) {
+  const { setOpenMobileSidebar, isExpanded } = useSidebar();
+  const pathName = usePathname();
+
+  return (
+    <li className="h-9  w-50 mx-auto flex items-center hover:text-primary cursor-pointer mb-2.5">
+      {link ? (
+        <Link
+          onClick={() => setOpenMobileSidebar(false)}
+          href={link}
+          className={`${
+            pathName === link ? "text-primary" : ""
+          } flex items-center hover:text-primary w-full h-full transition duration-150 gap-2.5 overflow-hidden`}
+        >
+          {icon}
+          <p
+            className={`capitalize truncate text-base hidden md:block xl:hidden transition-all  duration-150 ${isExpanded ? " opacity-100 translate-x-0" : " opacity-0 -translate-x-0.5"}`}
+          >
+            {label}
+          </p>
+          <p className="capitalize md:hidden xl:block text-[16px] truncate">
+            {label}
+          </p>
+        </Link>
+      ) : (
+        <button
+          type="button"
+          onClick={() => {
+            setOpenMobileSidebar(false);
+            signOut({ callbackUrl: "/" });
+          }}
+          className="flex items-center hover:text-primary w-full h-full transition duration-150 gap-2.5 overflow-hidden text-left bg-transparent p-0 cursor-pointer"
+        >
+          {icon}
+          <p
+            className={`capitalize truncate text-base hidden md:block xl:hidden transition-all  duration-150 ${isExpanded ? " opacity-100 translate-x-0" : " opacity-0 -translate-x-0.5"}`}
+          >
+            {label}
+          </p>
+          <p className="capitalize md:hidden xl:block text-[16px] truncate">
+            {label}
+          </p>
+        </button>
+      )}
+    </li>
+  );
+}

@@ -1,0 +1,64 @@
+"use client";
+import { memo } from "react";
+import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  formatRelativeTime,
+  getInitials,
+  isUnread,
+} from "@/lib/messaging/utils";
+import { ConversationListItem } from "@/app/_types/messaging";
+import { usePresence } from "@/app/_contexts/PresenceContext";
+
+interface ConversationItemProps {
+  currentUserId: string | undefined;
+  conversation: ConversationListItem;
+  isSelected: boolean;
+}
+const ConversationItem = ({ currentUserId, conversation, isSelected }: ConversationItemProps) => {
+  const onlineUsers = usePresence();
+  const isActive = onlineUsers.has(conversation?.otherParticipant.id || "");
+
+  return (
+    <Link
+      href={`/inbox?c=${conversation.id}`}
+      className={`flex items-center p-5 rounded-lg transition-colors cursor-pointer ${
+        isSelected ? "bg-primary/10 border border-primary/20" : "bg-gray-100 hover:bg-gray-200"
+      }`}
+    >
+      {/* Avatar */}
+      <div className="mr-2 relative">
+        <Avatar className="h-10 w-10">
+          <AvatarImage src={conversation.otherParticipant.image || undefined} />
+          <AvatarFallback>
+            {getInitials(conversation.otherParticipant.name || "")}
+          </AvatarFallback>
+        </Avatar>
+        {isActive && (
+          <span className="absolute bg-green-500 w-3 h-3 bottom-0 right-0 rounded-full"></span>
+        )}
+      </div>
+
+      <div className="flex-1 min-w-0 mr-2">
+        <h3 className="font-semibold text-base leading-5 truncate">
+          {conversation.otherParticipant.name}
+        </h3>
+        <p className="text-xs leading-[100%] truncate">
+          {conversation.lastMessage?.content || ""}
+        </p>
+      </div>
+      {/* Timestamp */}
+      <div className="shrink-0 flex flex-col gap-2 items-end">
+        <span className="text-xs leading-3.5 text-muted-foreground whitespace-nowrap">
+          {formatRelativeTime(conversation.lastMessage?.createdAt || conversation.createdAt)}
+        </span>
+
+        {isUnread(conversation, currentUserId) && (
+          <div className="bg-primary-500 w-2 h-2 rounded-full"></div>
+        )}
+      </div>
+    </Link>
+  );
+};
+
+export default memo(ConversationItem);

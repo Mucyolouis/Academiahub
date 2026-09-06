@@ -1,0 +1,105 @@
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Document } from "@/app/_types/documents";
+import Description from "./Description";
+import { formatToMB } from "@/lib/utils";
+import { getInitials } from "@/lib/messaging/utils";
+import { getCategoryImage } from "@/lib/categoryImage";
+import MessageAuthorButton from "./MessageAuthorButton";
+import DownloadButton from "../shared/DownloadButton";
+import Like from "@/components/Like";
+import SaveButton from "@/components/SaveButton";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+const PublicationDetails = ({id, details, isLiked, isSaved, isOwner }: { details: Document; isLiked: boolean; isSaved: boolean; id: string; isOwner: boolean }) => {
+  const [downloadCount, setDownloadCount] = useState(details.downloads);
+
+  const router = useRouter()
+  return (
+    <div className="bg-white border lg:px-4 lg:pb-8.75 pt-6.25 border-[#D9D9D9] rounded-[15px] p-3">
+      {/* profile pic and name */}
+
+      <div className="flex items-start justify-between">
+        <Link href={`/profile/${details.authorId}`} className="flex gap-1.5 md:gap-1 mb-2.75 items-center">
+          <Avatar className="size-10 p-1 max-sm:border border-white lg:size-15">
+            <AvatarImage src={details.author.image || undefined} />
+            <AvatarFallback>
+              {getInitials(details.author.name || "")}
+            </AvatarFallback>
+          </Avatar>
+
+          <div className="max-sm:space-y-1">
+            <h2 className="text-sm lg:text-xl font-medium lg:leading-6 leading-4.5">
+              {details.author.name}
+            </h2>
+            <p className="text-xs md:text-sm text-grey font-normal lg:leading-4.5 leading-3.5">
+              {details.institution}
+            </p>
+          </div>
+        </Link>
+
+        {/* message button for mobile */}
+        <MessageAuthorButton authorId={details.authorId} className="md:hidden p-1" label="Message" />
+      </div>
+
+      <div className="relative rounded-[12px] w-full h-34.25 md:h-59.75 mb-4.25 lg:mb-5.5">
+        <Image
+          src={getCategoryImage(details.category)}
+          alt={details.title}
+          fill
+          className="object-cover object-center rounded-[12px]"
+        />
+      </div>
+
+      <h2  className="text-sm lg:text-xl font-medium lg:leading-6 leading-4.5">
+        {details.title}
+      </h2>
+
+      <div className="mt-3 mb-2.5 md:mb-3.75">
+        <h3 className="text-sm lg:text-lg mb-3 max-sm:text-grey font-medium lg:leading-5 leading-4.5">
+          Abstract
+        </h3>
+        <Description description={details?.description} />
+      </div>
+      <div className="lg:px-5.25 px-1.25 py-3.25 flex items-center justify-between mb-2.5 md:mb-6.25">
+        <span className="flex text-[10px] font-normal lg:leading-4.5 leading-[130%] md:text-sm items-center gap-px">
+          <p className="max-sm:tex-grey  ">Year:</p>
+          <p className="">{details.year}</p>
+        </span>
+        <span className="flex text-[10px] font-normal lg:leading-4.5 leading-[130%] md:text-sm items-center gap-px">
+          <p className="max-sm:tex-grey ">Size:</p>
+          <p className="">{formatToMB(details.fileSize)}</p>
+        </span>
+        <span className="flex text-[10px] font-normal lg:leading-4.5 leading-[130%] md:text-sm items-center gap-px">
+          <p className="max-sm:tex-grey ">Downloads:</p>
+          <p className="">{downloadCount}</p>
+        </span>
+      </div>
+      <div className={`grid ${isOwner ? "grid-cols-2" : "grid-cols-3"} gap-2 md:gap-5 mb-3 lg:mb-5 justify-between`}>
+        <DownloadButton
+          documentId={details.id}
+          fileUrl={details.fileUrl}
+          fileName={details.fileName}
+          className="w-full min-w-0 px-1 md:px-6 text-[11px] md:text-base h-7.5 md:h-11"
+          onDownload={() => setDownloadCount((prev) => prev + 1)}
+        >
+          <span className="md:hidden">Download</span>
+          <span className="hidden md:inline">Download Publication</span>
+        </DownloadButton>
+        <SaveButton documentId={details.id} initialSaved={isSaved} variant="button" />
+
+        {!isOwner && (
+          <Button onClick={() => router.push(`/publication/${id}/report-issue`)} className="border-primary h-7.5 md:h-11 hover:bg-primary/85 hover:text-white text-xs md:text-base" variant="outline">Report</Button>
+        )}
+      </div>
+
+      <Like documentId={details.id} initialLiked={isLiked} initialCount={details.likes} />
+    </div>
+  );
+};
+
+export default PublicationDetails;

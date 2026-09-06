@@ -1,0 +1,53 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+import http from "http";
+import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+import "./types";
+import conversationRoutes from "./routes/conversations";
+import messageRoutes from "./routes/messages";
+import userRoutes from "./routes/users";
+import internalRoutes from "./routes/internal";
+import { errorHandler } from "./middleware/errorHandler";
+import { createSocketServer } from "./ws/handler";
+
+const app = express();
+
+app.use(helmet());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL
+      ? process.env.FRONTEND_URL.split(",").map((u) => u.trim())
+      : "http://localhost:3000",
+    credentials: true,
+  })
+);
+app.use(express.json({ limit: "10kb" }));
+
+// ─── REST Routes ────────────────────────────────────────
+
+app.use("/api/conversations", conversationRoutes);
+app.use("/api/conversations", messageRoutes);
+app.use("/api/users", userRoutes);
+app.use("/internal", internalRoutes);
+
+// ─── Health Check ───────────────────────────────────────
+
+app.get("/api/health", (_req, res) => {
+  res.json({ status: "ok" });
+});
+
+app.use(errorHandler);
+
+// ─── HTTP + Socket.IO Server ────────────────────────────
+
+const server = http.createServer(app);
+createSocketServer(server);
+
+const PORT = parseInt(process.env.PORT || "4000", 10);
+
+server.listen(PORT, () => {
+  console.log(`Backend server running on port ${PORT}`);
+});

@@ -1,0 +1,53 @@
+"use client";
+import Logo from "./Logo";
+import { sideLinks } from "@/app/data/Exports";
+import SideLink from "./SideLink";
+import CollaspeSide from "./CollaspeSide";
+import { useSidebar } from "./SidebarContext";
+import { ChevronRight } from "lucide-react";
+
+const Sidebar = () => {
+  const { isExpanded, toggleSidebar } = useSidebar();
+  return (
+    <aside
+      className={`h-full transition-all relative duration-300 w-full md:w-14 xl:w-62.5 overflow-hidden lg:border-r bg-white shadow-lg p-5  ${isExpanded ? "md:w-62.5 z-60" : "md:w-14"}`}
+    >
+      <div
+        className={`${!isExpanded ? "block md:hidden xl:block" : "md:block hidden"}`}
+      >
+        <Logo href="/dashboard" />
+      </div>
+      <ChevronRight
+        size={28}
+        strokeWidth={1.5}
+        className={`hidden text-black md:block xl:hidden absolute top-6 ${isExpanded ? "right-0 " : " translate-x-1/2 right-1/2"} z-60  cursor-pointer transition-transform duration-300`}
+        onClick={toggleSidebar}
+        style={{
+          transform: isExpanded ? " rotate(180deg)" : " rotate(0deg)",
+          transition: "transform 300ms ease",
+        }}
+      />
+      <div className="flex flex-col justify-between h-full mt-3.75 lg:mt-8 xl:mt-3.75 pb-4">
+        <div>
+          <nav>
+            <ul className="w-52.5  md:w-fit mt-7.5 lg:mt-0  ">
+              {sideLinks.map(({ icon, label, link }) => {
+                return (
+                  <SideLink icon={icon} label={label} link={link} key={link} />
+                );
+              })}
+              <CollaspeSide />
+            </ul>
+          </nav>
+        </div>
+
+        <div
+          className={`flex flex-col mt-4 gap-2 pb-4  ${isExpanded ? "md:flex" : "md:hidden lg:flex"}
+`}
+        ></div>
+      </div>
+    </aside>
+  );
+};
+
+export default Sidebar;

@@ -1,0 +1,123 @@
+
+> frontend@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.9 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.8.103:3000
+- Environments: .env.local, .env
+✓ Ready in 2.0s
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+
+○ Compiling /verification ...
+ GET /verification?email=umuhoza%40mail.com 200 in 24.8s (next.js: 22.7s, application-code: 2.1s)
+[browser] Image with src "/assets/images/academialogo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[browser] Image with src "/assets/images/Logoimage.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+○ Compiling /api/auth/[...nextauth] ...
+ POST /api/auth/verify-email 404 in 5.3s (next.js: 4.7s, application-code: 643ms)
+○ Compiling /api/auth/resend-code ...
+ POST /api/auth/resend-code 404 in 5.1s (next.js: 5.0s, application-code: 167ms)
+ GET /api/auth/session 200 in 18.0s (next.js: 17.7s, application-code: 318ms)
+○ Compiling /api/user/change-password ...
+ GET /api/user/change-password 405 in 5.1s (next.js: 5.0s, application-code: 40ms)
+ GET /api/documents 200 in 1371ms (next.js: 1248ms, application-code: 122ms)
+ GET /api/profile/me 401 in 1734ms (next.js: 1672ms, application-code: 62ms)
+ GET /api/auth/token 401 in 1168ms (next.js: 1115ms, application-code: 54ms)
+ POST /api/auth/token 405 in 85ms (next.js: 41ms, application-code: 45ms)
+ GET /api/auth/verify-email 405 in 88ms (next.js: 35ms, application-code: 53ms)
+ GET /api/auth/resend-code 405 in 78ms (next.js: 24ms, application-code: 54ms)
+ POST /api/auth/reset-password 400 in 2.8s (next.js: 2.7s, application-code: 121ms)
+ GET /api/auth/request-password-reset 405 in 2.7s (next.js: 2.7s, application-code: 47ms)
+ POST /api/documents 401 in 107ms (next.js: 17ms, application-code: 90ms)
+ POST /api/auth/verify-email 404 in 121ms (next.js: 9ms, application-code: 113ms)
+ POST /api/auth/resend-code 404 in 42ms (next.js: 20ms, application-code: 22ms)
+ POST /api/auth/verify-email 400 in 20ms (next.js: 5ms, application-code: 15ms)
+ POST /api/auth/verify-email 400 in 168ms (next.js: 79ms, application-code: 89ms)
+ POST /api/auth/resend-code 200 in 3.8s (next.js: 52ms, application-code: 3.7s)
+ POST /api/auth/verify-email 200 in 75ms (next.js: 6ms, application-code: 69ms)
+○ Compiling /login ...
+ GET /login?verified=true 200 in 12.7s (next.js: 11.1s, application-code: 1564ms)
+ GET /api/auth/providers 200 in 359ms (next.js: 214ms, application-code: 145ms)
+ GET /api/auth/csrf 200 in 58ms (next.js: 28ms, application-code: 30ms)
+ POST /api/auth/callback/credentials 200 in 469ms (next.js: 19ms, application-code: 450ms)
+ GET /api/auth/session 200 in 65ms (next.js: 8ms, application-code: 57ms)
+ GET /api/auth/token 200 in 66ms (next.js: 22ms, application-code: 45ms)
+○ Compiling /dashboard ...
+ GET /dashboard 200 in 20.0s (next.js: 11.8s, application-code: 8.2s)
+○ Compiling /onboarding ...
+ GET /onboarding 200 in 13.5s (next.js: 12.2s, application-code: 1260ms)
+ GET /onboarding 200 in 714ms (next.js: 107ms, application-code: 607ms)
+ PUT /api/profile/me 200 in 315ms (next.js: 59ms, application-code: 256ms)
+ GET /dashboard 200 in 1236ms (next.js: 292ms, application-code: 944ms)
+ GET /dashboard 200 in 1239ms (next.js: 75ms, application-code: 1164ms)
+○ Compiling /api/notifications/unread-count ...
+ GET /api/notifications/unread-count 200 in 14.1s (next.js: 14.0s, application-code: 87ms)
+ GET /inbox 200 in 14.6s (next.js: 14.2s, application-code: 366ms)
+ GET /api/auth/token 200 in 213ms (next.js: 107ms, application-code: 105ms)
+○ Compiling /notifications ...
+ GET /notifications 200 in 5.4s (next.js: 3.9s, application-code: 1493ms)
+ GET /profile 200 in 6.3s (next.js: 5.3s, application-code: 999ms)
+○ Compiling /_not-found/page ...
+ GET /undefined 404 in 5.6s (next.js: 4.3s, application-code: 1289ms)
+ GET /dashboard 200 in 941ms (next.js: 135ms, application-code: 806ms)
+○ Compiling /publication/[id] ...
+ GET /api/notifications/unread-count 200 in 83ms (next.js: 11ms, application-code: 71ms)
+ GET /publication/cmt67fd5s0001fpnsgd66hp1s 200 in 13.5s (next.js: 9.0s, application-code: 4.5s)
+ GET /api/auth/token 200 in 240ms (next.js: 91ms, application-code: 148ms)
+ GET /inbox?c=cmtkmb7dx0001fpt4t0pb3ciy 200 in 321ms (next.js: 42ms, application-code: 279ms)
+ GET /api/auth/token 200 in 136ms (next.js: 51ms, application-code: 86ms)
+ GET /api/auth/token 200 in 40ms (next.js: 10ms, application-code: 30ms)
+ GET /api/auth/token 200 in 20ms (next.js: 6ms, application-code: 14ms)
+ GET /inbox?c=cmtkmb7dx0001fpt4t0pb3ciy 307 in 4.3s (next.js: 64ms, application-code: 4.2s)
+○ Compiling / ...
+ GET / 200 in 26.7s (next.js: 18.9s, application-code: 7.7s)
+ GET /api/auth/session 200 in 316ms (next.js: 204ms, application-code: 111ms)
+ GET /login 200 in 211ms (next.js: 60ms, application-code: 150ms)
+ GET /api/auth/providers 200 in 201ms (next.js: 104ms, application-code: 97ms)
+ GET /api/auth/csrf 200 in 51ms (next.js: 10ms, application-code: 42ms)
+ POST /api/auth/callback/credentials 200 in 420ms (next.js: 14ms, application-code: 406ms)
+ GET /api/auth/session 200 in 66ms (next.js: 9ms, application-code: 57ms)
+ GET /api/auth/token 200 in 186ms (next.js: 17ms, application-code: 169ms)
+ GET /dashboard 200 in 709ms (next.js: 45ms, application-code: 663ms)
+ GET /api/notifications/unread-count 200 in 130ms (next.js: 37ms, application-code: 93ms)
+ GET /notifications 200 in 126ms (next.js: 30ms, application-code: 96ms)
+○ Compiling /api/notifications ...
+ GET /api/notifications?limit=20 200 in 5.1s (next.js: 5.1s, application-code: 72ms)
+ GET /inbox?c=cmtkmb7dx0001fpt4t0pb3ciy 200 in 99ms (next.js: 35ms, application-code: 63ms)
+ GET /api/auth/token 200 in 57ms (next.js: 23ms, application-code: 34ms)
+ GET /api/auth/token 200 in 23ms (next.js: 6ms, application-code: 17ms)
+ PATCH /api/notifications/cmtkmbgf10005fpt4ctqna7lo/read 200 in 2.7s (next.js: 2.7s, application-code: 59ms)
+ GET /api/auth/token 200 in 31ms (next.js: 11ms, application-code: 20ms)
+ GET /api/auth/token 200 in 35ms (next.js: 15ms, application-code: 20ms)
+ GET /api/auth/token 200 in 201ms (next.js: 176ms, application-code: 25ms)
+ GET /api/auth/session 200 in 267ms (next.js: 130ms, application-code: 137ms)
+ GET /api/auth/session 200 in 280ms (next.js: 106ms, application-code: 173ms)
+[browser] Image with src "/assets/images/logoIcon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[browser] Image with src "/assets/images/logoIcon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+ GET /api/notifications/unread-count 200 in 131ms (next.js: 21ms, application-code: 110ms)
+ GET /api/notifications/unread-count 200 in 65ms (next.js: 13ms, application-code: 52ms)
+ GET /api/auth/token 200 in 71ms (next.js: 34ms, application-code: 37ms)
+ GET /api/auth/token 200 in 128ms (next.js: 88ms, application-code: 40ms)
+ GET /api/auth/token 200 in 104ms (next.js: 16ms, application-code: 88ms)
+ GET /api/auth/token 200 in 113ms (next.js: 59ms, application-code: 54ms)
+ GET /notifications 200 in 1081ms (next.js: 148ms, application-code: 934ms)
+ GET /api/notifications?limit=20 200 in 596ms (next.js: 113ms, application-code: 483ms)
+ GET /inbox 200 in 156ms (next.js: 39ms, application-code: 117ms)
+ GET /api/notifications/unread-count 200 in 85ms (next.js: 8ms, application-code: 77ms)
+ GET /inbox?c=cmtkmb7dx0001fpt4t0pb3ciy 200 in 129ms (next.js: 23ms, application-code: 106ms)
+ GET /api/auth/token 200 in 83ms (next.js: 17ms, application-code: 66ms)
+○ Compiling /profile/[otherUserId] ...
+ GET /api/notifications/unread-count 200 in 136ms (next.js: 19ms, application-code: 117ms)
+ GET /profile/DHpZBrLKxo2xDo04 200 in 24.6s (next.js: 23.5s, application-code: 1091ms)
+ GET /api/notifications/unread-count 200 in 102ms (next.js: 36ms, application-code: 65ms)
+ GET /api/notifications/unread-count 200 in 44ms (next.js: 13ms, application-code: 31ms)
+ GET /api/auth/csrf 200 in 249ms (next.js: 160ms, application-code: 88ms)
+ POST /api/auth/signout 200 in 97ms (next.js: 13ms, application-code: 84ms)
+ GET /api/auth/csrf 200 in 1696ms (next.js: 646ms, application-code: 1049ms)
+ POST /api/auth/signout 200 in 1000ms (next.js: 399ms, application-code: 601ms)
+ GET /api/notifications/unread-count 401 in 985ms (next.js: 551ms, application-code: 434ms)
+ GET /api/auth/session 200 in 287ms (next.js: 39ms, application-code: 248ms)
+ GET / 200 in 20.9s (next.js: 83ms, application-code: 20.8s)
+ GET /api/auth/session 200 in 433ms (next.js: 265ms, application-code: 168ms)
+ GET / 200 in 12.3s (next.js: 5.0s, application-code: 7.3s)
+ GET /api/auth/session 200 in 124ms (next.js: 77ms, application-code: 47ms)

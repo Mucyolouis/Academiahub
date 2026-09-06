@@ -1,0 +1,33 @@
+import { notificationsLinks } from "@/app/data/Exports";
+import Back from "@/components/user/shared/Back";
+import Link from "next/link";
+import { ChevronsRight } from "lucide-react";
+
+export default function Page() {
+  return (
+    <section className="">
+      <Back />
+      <div className="text-center mb-12.5 px-6">
+        <h1 className="text-xl lg:text-4xl mb-5 font-semibold leading-6.75 md:leading-10 tracking-normal">
+          Notifications
+        </h1>
+        <p className="text-sm lg:text-[16px] text-grey font-medium leading-4.5 tracking-normal">
+          Manage how you receive updates and activity alerts
+        </p>
+      </div>
+
+      <div className="gap-4 flex flex-col">
+        {notificationsLinks.map(({ label, href }) => (
+          <Link
+            key={href}
+            href={href}
+            className=" items-center inline-flex  gap-1 group"
+          >
+            {label}
+            <ChevronsRight strokeWidth={1.5} color="#1e3a8a" className="group-hover:translate-x-1 duration-150 transition-transform" />
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}

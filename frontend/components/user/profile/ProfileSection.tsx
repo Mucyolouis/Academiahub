@@ -1,0 +1,141 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { GraduationCap, MapPin, School } from "lucide-react";
+import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import prisma from "@/prisma/connection";
+import { Bio } from "@/app/_types/author";
+import { getInitials } from "@/lib/messaging/utils";
+import Stats from "./Stats";
+
+const ProfileSection = async () => {
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id;
+
+  let name = session?.user?.name || "";
+  let image: string | null = session?.user?.image || null;
+  let bio: Bio | null = null;
+  let stats = { uploads: 0, downloads: 0, likes: 0, saves: 0 };
+
+  if (userId) {
+    const [user, documents, savesReceived] = await Promise.all([
+      prisma.user.findUnique({
+        where: { id: userId },
+        select: {
+          name: true,
+          image: true,
+          Profile: {
+            take: 1,
+            select: {
+              institution: true,
+              department: true,
+              aboutMe: true,
+              state: true,
+              country: true,
+            },
+          },
+        },
+      }),
+      prisma.document.findMany({
+        where: { authorId: userId },
+        select: { downloads: true, likes: true },
+      }),
+      prisma.save.count({
+        where: { document: { authorId: userId } },
+      }),
+    ]);
+
+    if (user) {
+      name = user.name || name;
+      image = user.image;
+      bio = user.Profile[0] ?? null;
+    }
+
+    stats = {
+      uploads: documents.length,
+      downloads: documents.reduce((sum, doc) => sum + doc.downloads, 0),
+      likes: documents.reduce((sum, doc) => sum + doc.likes, 0),
+      saves: savesReceived,
+    };
+  }
+
+  const avatarSrc = image || undefined;
+  const initials = getInitials(name);
+  const location = bio
+    ? [bio.state, bio.country].filter(Boolean).join(", ")
+    : "";
+
+  return (
+    <div className="md:bg-white md:m-4 md:py-6 md:px-4 rounded-2xl">
+      <div
+        className="h-19.25 lg:h-36.25 relative rounded-t-2xl bg-linear-to-r from-primary/30 to-primary/10"
+        style={{
+          backgroundImage: `url(${avatarSrc})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      ></div>
+      <div className="flex gap-4 flex-col md:flex-row">
+        <Avatar className="border-[3px] hidden md:block border-white shadow-md h-10 w-10 lg:w-25 lg:h-25 -mt-5">
+          <AvatarImage src={avatarSrc} alt={name || "avatar"} />
+          <AvatarFallback>{initials}</AvatarFallback>
+        </Avatar>
+
+        <div className="flex-1 mt-2 lg:mt-6.5  ">
+          <div className="flex items-center mb-2 justify-between">
+            <div className="flex items-center gap-2">
+              <Avatar className="border-[3px] md:hidden border-white shadow-md h-10 w-10 ">
+                <AvatarImage src={avatarSrc} alt={name || "avatar"} />
+                <AvatarFallback>{initials}</AvatarFallback>
+              </Avatar>
+              <h3 className="text-xl font-normal leading-none">{name}</h3>
+            </div>
+            <Button
+              variant={"outline2"}
+              className="max-w-23.75 text-sm leading-3.5 font-normal lg:mr-3.75 border-[#1E3A8A] hover:bg-[#adadad] hover:text-current"
+              asChild
+            >
+              <Link href="/profile/edit">Edit profile</Link>
+            </Button>
+          </div>
+
+          <div className="pl-2">
+            {/* info */}
+            <div className="flex md:items-center text-black flex-col md:flex-row  gap-4 lg:gap-8">
+              <div className="flex items-center gap-1">
+                <School size={16} strokeWidth={1.5} />
+                <h5 className="text-xs md:text-sm leading-3.5 md:leading-4.5">
+                  {bio?.institution || "Institution not specified"}
+                </h5>
+              </div>
+
+              <div className="flex  items-center gap-1">
+                <GraduationCap size={16} strokeWidth={1.5} />
+                <h5 className="text-xs md:text-sm leading-3.5 md:leading-4.5">
+                  {bio?.department || "Department not specified"}
+                </h5>
+              </div>
+            </div>
+
+            <div className="flex items-center text-black mt-4 mb-6.5 gap-1">
+              <MapPin size={16} strokeWidth={1.5} />
+              <h5 className="text-xs md:text-sm leading-3.5 md:leading-4.5">
+                {location ? location : "Location not specified"}
+              </h5>
+            </div>
+
+            <p className="text-xs md:text-sm leading-3.5 md:leading-4.5">
+              {bio?.aboutMe || "No bio summary provided"}
+            </p>
+            {/* stats */}
+            <Stats stats={stats} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProfileSection;
