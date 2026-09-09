@@ -24,7 +24,7 @@ export async function POST(
     const userId = session.user.id;
 
     const document = await prisma.document.findUnique({
-      where: { id: documentId },
+      where: { id: documentId, status: "PUBLISHED" },
       select: { authorId: true },
     });
 
@@ -79,7 +79,7 @@ export async function POST(
 
     await prisma.report.create({
       data: {
-        reason: reason as ReportReason[],
+        reason: reason.join(", "),
         description: description?.trim() || null,
         reporterId: userId,
         documentId,

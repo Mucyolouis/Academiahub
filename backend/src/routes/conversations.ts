@@ -35,7 +35,7 @@ router.post(
       // Validate recipient exists
       const recipient = await prisma.user.findUnique({
         where: { id: recipientId },
-        select: { id: true },
+        select: { id: true, allowMessages: true },
       });
 
       if (!recipient) {
@@ -43,10 +43,46 @@ router.post(
         return;
       }
 
-      // Normalize participant order: smaller ID is always participantA.
-      // This ensures the @@unique constraint catches both A→B and B→A.
+      // Respect the recipient's "allow messages" privacy setting.
+      if (!recipient.allowMessages) {
+        res.status(403).json({
+          error: "This user has disabled messages",
+          code: "MESSAGES_DISABLED",
+        });
+        return;
+      }
+
+      // Normalize participant/connection order: smaller ID is always A.
+      // This ensures the @@unique constraints catch both A→B and B→A.
       const [participantAId, participantBId] =
         userId < recipientId ? [userId, recipientId] : [recipientId, userId];
+
+      // Connection requirement: only ACCEPTED connections can start a DM.
+      const connection = await prisma.connection.findUnique({
+        where: {
+          userAId_userBId: { userAId: participantAId, userBId: participantBId },
+        },
+        select: { id: true, status: true, requesterId: true },
+      });
+
+      if (!connection || connection.status !== "ACCEPTED") {
+        const status = !connection
+          ? "none"
+          : connection.requesterId === userId
+            ? "pending-sent"
+            : "pending-incoming";
+
+        res.status(403).json({
+          error: status === "none"
+            ? "You must be connected with this user before messaging them"
+            : status === "pending-sent"
+              ? "Connection request still pending"
+              : "Accept this user's connection request before messaging them",
+          code: "CONNECTION_REQUIRED",
+          connectionStatus: status,
+        });
+        return;
+      }
 
       // Find existing or create new conversation
       const conversation = await prisma.conversation.upsert({

@@ -28,10 +28,26 @@ export async function GET(
       where: { id: documentId },
       include: {
         author: { select: { id: true, name: true, image: true } },
+        communityLinks: {
+          include: {
+            community: {
+              select: { id: true, name: true, slug: true, image: true },
+            },
+          },
+        },
       },
     });
 
     if (!document) {
+      return NextResponse.json({ error: "Document not found" }, { status: 404 });
+    }
+
+    // Moderated documents are only visible to their author and admins.
+    if (
+      document.status === "HIDDEN" &&
+      document.author.id !== userId &&
+      session.user.role !== "ADMIN"
+    ) {
       return NextResponse.json({ error: "Document not found" }, { status: 404 });
     }
 

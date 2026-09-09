@@ -1,4 +1,5 @@
 import React from "react";
+import NewMessageModal from "./NewMessageModal";
 
 const EmptyConversation = () => {
   return (
@@ -7,6 +8,9 @@ const EmptyConversation = () => {
       <p className="text-sm leading-4.5 text-gray-400">
         Start a conversation with an author to learn about their works
       </p>
+      <div className="mt-6">
+        <NewMessageModal className="px-4 py-2 rounded-lg border border-primary hover:bg-primary hover:text-white transition-colors" />
+      </div>
     </div>
   );
 };

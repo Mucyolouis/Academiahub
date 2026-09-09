@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin-guard";
+import { recordAdminAction } from "@/lib/admin/audit";
 import prisma from "@/prisma/connection";
 
 const ALLOWED_STATUSES = ["REVIEWED", "DISMISSED"] as const;
@@ -31,9 +32,20 @@ export async function PATCH(
   try {
     const report = await prisma.report.update({
       where: { id: reportId },
-      data: { status: status as AllowedStatus },
+      data: {
+        status: status as AllowedStatus,
+        resolvedById: session.user.id,
+        resolvedAt: new Date(),
+        resolution: status === "DISMISSED" ? "DISMISSED" : "NONE",
+      },
       select: { id: true, status: true },
     });
+    await recordAdminAction(
+      session,
+      status === "DISMISSED" ? "report.dismiss" : "report.resolve",
+      "report",
+      reportId,
+    );
     return NextResponse.json(report);
   } catch {
     return NextResponse.json({ error: "Report not found" }, { status: 404 });

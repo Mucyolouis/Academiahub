@@ -44,9 +44,9 @@ export async function GET(
 
     // Compute stats
     const [uploadCount, documents, savesReceived] = await Promise.all([
-      prisma.document.count({ where: { authorId: userId } }),
+      prisma.document.count({ where: { authorId: userId, status: "PUBLISHED" } }),
       prisma.document.findMany({
-        where: { authorId: userId },
+        where: { authorId: userId, status: "PUBLISHED" },
         select: { downloads: true, likes: true },
       }),
       prisma.save.count({

@@ -38,13 +38,17 @@ export default async function AdminReportsPage({
       reason: true,
       description: true,
       status: true,
+      resolution: true,
+      resolvedAt: true,
       createdAt: true,
       reporter: { select: { name: true, email: true } },
+      resolver: { select: { name: true, email: true } },
       document: {
         select: {
           id: true,
           title: true,
           fileUrl: true,
+          status: true,
           author: { select: { name: true } },
         },
       },
@@ -115,11 +119,21 @@ export default async function AdminReportsPage({
                 {report.document.author?.name
                   ? ` · Author: ${report.document.author.name}`
                   : ""}
+                {report.document.status === "HIDDEN" ? " · Hidden" : ""}
               </p>
+
+              {report.resolution !== "NONE" ? (
+                <p className="text-xs text-gray-500">
+                  Resolved with “{report.resolution}”
+                  {report.resolver?.name ? ` by ${report.resolver.name}` : ""}
+                  {report.resolvedAt
+                    ? ` · ${report.resolvedAt.toLocaleString()}`
+                    : ""}
+                </p>
+              ) : null}
 
               <ReportActions
                 reportId={report.id}
-                documentId={report.document.id}
                 status={report.status}
               />
             </li>

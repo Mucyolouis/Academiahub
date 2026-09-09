@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { getInitials } from "@/lib/messaging/utils";
 import Link from "next/link";
-import MessageAuthorButton from "./MessageAuthorButton";
+import ConnectionButton from "@/components/connections/ConnectionButton";
 import Reviews from "./Reviews";
 import type { ReviewAggregate } from "@/lib/reviews/aggregate";
 
@@ -69,11 +69,7 @@ const ProfileCard = ({
         </div>
 
         <div className="space-y-1 mb-2 lg:mb-4">
-          <MessageAuthorButton
-            authorId={profile.id}
-            className="w-full"
-            label="Message Author"
-          />
+          <ConnectionButton userId={profile.id} className="w-full" />
           <Button
             asChild
             className="w-full border-primary hover:bg-primary/85 hover:text-white "

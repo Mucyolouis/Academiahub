@@ -10,9 +10,11 @@ const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL!;
 
 export class ApiError extends Error {
   status: number;
-  constructor(status: number, message: string) {
+  code?: string;
+  constructor(status: number, message: string, code?: string) {
     super(message);
     this.status = status;
+    this.code = code;
   }
 }
 
@@ -32,7 +34,7 @@ async function authFetch<T>(path: string, options?: RequestInit): Promise<T> {
 
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
-    throw new ApiError(res.status, body.error ?? `Request failed (${res.status})`);
+    throw new ApiError(res.status, body.error ?? `Request failed (${res.status})`, body.code);
   }
 
   return res.json();

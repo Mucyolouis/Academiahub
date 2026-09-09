@@ -7,6 +7,7 @@ import CommentOrReview from "./CommentOrReview";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getReviewAggregate } from "@/lib/reviews/aggregate";
+import { notFound } from "next/navigation";
 
 const PublicationContent = async ({
   params,
@@ -23,7 +24,7 @@ const PublicationContent = async ({
       },
     }),
     prisma.comment.findMany({
-      where: { documentId: id },
+      where: { documentId: id, isHidden: false },
       include: {
         user: { select: { id: true, name: true, image: true } },
       },
@@ -36,7 +37,14 @@ const PublicationContent = async ({
   ]);
 
   if (!document) {
-    throw new Error("Document not found");
+    notFound();
+  }
+
+  // Moderated (hidden) documents are only visible to their author and admins.
+  const isAuthorOrAdmin =
+    document.author.id === session?.user?.id || session?.user?.role === "ADMIN";
+  if (document.status === "HIDDEN" && !isAuthorOrAdmin) {
+    notFound();
   }
 
   const [profile, existingLike, existingSave, userReview] = await Promise.all([

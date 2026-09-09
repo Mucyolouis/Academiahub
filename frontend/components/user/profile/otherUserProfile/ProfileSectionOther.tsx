@@ -1,8 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { GraduationCap, MapPin, School } from "lucide-react";
 import { Profile, Bio } from "@/app/_types/author";
 import { getInitials } from "@/lib/messaging/utils";
+import ConnectionButton from "@/components/connections/ConnectionButton";
 
 const ProfileSectionOther = ({ profile }: { profile: Profile }) => {
   const avatarSrc = profile.image || undefined;
@@ -30,12 +30,10 @@ const ProfileSectionOther = ({ profile }: { profile: Profile }) => {
               </Avatar>
               <h3 className="text-xl font-normal leading-none">{profile.name}</h3>
             </div>
-            <Button
-              variant={"outline2"}
-              className="max-w-23.75 text-sm leading-3.5 font-normal mr-2.5 border-[#1E3A8A] hover:bg-[#adadad] hover:text-current"
-            >
-              Message
-            </Button>
+            <ConnectionButton
+              userId={profile.id}
+              className="max-w-23.75 text-sm leading-3.5 font-normal mr-2.5"
+            />
           </div>
 
           {/* info */}

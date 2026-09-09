@@ -62,6 +62,7 @@ export async function POST(request: NextRequest) {
       fileKey,
       fileName,
       fileSize,
+      communityIds,
     } = body;
 
     for (const field of REQUIRED_FIELDS) {
@@ -93,6 +94,37 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (
+      !Array.isArray(communityIds) ||
+      communityIds.length === 0 ||
+      communityIds.some((id) => typeof id !== "string")
+    ) {
+      return NextResponse.json(
+        { error: "You must select at least one community" },
+        { status: 400 },
+      );
+    }
+
+    const memberships = await prisma.communityMember.findMany({
+      where: {
+        userId: session.user.id,
+        communityId: { in: communityIds },
+      },
+      select: { communityId: true },
+    });
+    const memberCommunityIds = new Set(memberships.map((m) => m.communityId));
+    const notMemberIds = communityIds.filter((id: string) => !memberCommunityIds.has(id));
+
+    if (notMemberIds.length > 0) {
+      return NextResponse.json(
+        {
+          error:
+            "You can only publish to communities you have joined. Join the community first.",
+        },
+        { status: 403 },
+      );
+    }
+
     const document = await prisma.document.create({
       data: {
         title,
@@ -105,6 +137,9 @@ export async function POST(request: NextRequest) {
         fileName,
         fileSize,
         authorId: session.user.id,
+        communityLinks: {
+          create: communityIds.map((communityId: string) => ({ communityId })),
+        },
       },
     });
 
@@ -130,6 +165,15 @@ export async function GET(request: NextRequest) {
 
     const where: Prisma.DocumentWhereInput = {};
 
+    // Hidden (moderated) documents stay out of public views unless the
+    // requester is the author browsing their own documents.
+    const session = await getServerSession(authOptions);
+    if (authorId && authorId === session?.user?.id) {
+      // owner sees their own uploads regardless of status
+    } else {
+      where.status = "PUBLISHED";
+    }
+
     if (authorId) {
       where.authorId = authorId;
     }
@@ -141,16 +185,16 @@ export async function GET(request: NextRequest) {
     if (q && q.trim().length > 0) {
       const term = q.trim();
       where.OR = [
-        { title: { contains: term, mode: "insensitive" } },
-        { description: { contains: term, mode: "insensitive" } },
-        { institution: { contains: term, mode: "insensitive" } },
-        { author: { is: { name: { contains: term, mode: "insensitive" } } } },
+        { title: { contains: term } },
+        { description: { contains: term } },
+        { institution: { contains: term } },
+        { author: { is: { name: { contains: term } } } },
       ];
     }
 
     const skip = (page - 1) * limit;
 
-    const [documents, total, session] = await Promise.all([
+    const [documents, total] = await Promise.all([
       prisma.document.findMany({
         where,
         include: {
@@ -162,7 +206,7 @@ export async function GET(request: NextRequest) {
             },
           },
           _count: {
-            select: { commentRecords: true },
+            select: { commentRecords: { where: { isHidden: false } } },
           },
         },
         orderBy: SORT_OPTIONS[sort] ?? SORT_OPTIONS.recent,
@@ -170,7 +214,6 @@ export async function GET(request: NextRequest) {
         take: limit,
       }),
       prisma.document.count({ where }),
-      getServerSession(authOptions),
     ]);
 
     const userId = session?.user?.id;

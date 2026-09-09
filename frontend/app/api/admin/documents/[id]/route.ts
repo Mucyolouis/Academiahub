@@ -2,8 +2,48 @@ import { NextRequest, NextResponse } from "next/server";
 import { rm } from "fs/promises";
 import path from "path";
 import { requireAdmin } from "@/lib/admin-guard";
+import { recordAdminAction } from "@/lib/admin/audit";
 import prisma from "@/prisma/connection";
 import { UPLOADS_DIR } from "@/lib/storage";
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const session = await requireAdmin();
+  if (!session) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  const { id: documentId } = await params;
+  const body = await request.json().catch(() => null);
+  const status = body?.status;
+
+  if (status !== "PUBLISHED" && status !== "HIDDEN") {
+    return NextResponse.json(
+      { error: 'status must be "PUBLISHED" or "HIDDEN"' },
+      { status: 400 },
+    );
+  }
+
+  try {
+    const document = await prisma.document.update({
+      where: { id: documentId },
+      data: { status, hiddenAt: status === "HIDDEN" ? new Date() : null },
+      select: { id: true, title: true, status: true },
+    });
+    await recordAdminAction(
+      session,
+      status === "HIDDEN" ? "document.hide" : "document.publish",
+      "document",
+      documentId,
+      document.title,
+    );
+    return NextResponse.json(document);
+  } catch {
+    return NextResponse.json({ error: "Document not found" }, { status: 404 });
+  }
+}
 
 export async function DELETE(
   _request: NextRequest,
@@ -19,7 +59,7 @@ export async function DELETE(
   try {
     const document = await prisma.document.findUnique({
       where: { id: documentId },
-      select: { id: true, fileKey: true },
+      select: { id: true, fileKey: true, title: true },
     });
 
     if (!document) {
@@ -38,6 +78,13 @@ export async function DELETE(
 
     await prisma.document.delete({ where: { id: documentId } });
 
+    await recordAdminAction(
+      session,
+      "document.delete",
+      "document",
+      documentId,
+      document.title,
+    );
     return NextResponse.json({ message: "Document deleted" });
   } catch (error) {
     console.error("Admin document delete failed:", error);

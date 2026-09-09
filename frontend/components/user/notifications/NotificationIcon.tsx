@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Heart, MessageCircle, User } from "lucide-react";
+import { Heart, MessageCircle, ShieldAlert, User, UserCheck, UserPlus } from "lucide-react";
 
 type IconEntry = {
   Icon: LucideIcon;
@@ -22,6 +22,21 @@ const ICON_MAP: Record<string, IconEntry> = {
     Icon: User,
     label: "Message notification",
     color: "#ffd700",
+  },
+  connection_request: {
+    Icon: UserPlus,
+    label: "Connection request",
+    color: "#2563eb",
+  },
+  connection_accepted: {
+    Icon: UserCheck,
+    label: "Connection accepted",
+    color: "#16a34a",
+  },
+  moderation: {
+    Icon: ShieldAlert,
+    label: "Moderation notice",
+    color: "#ea580c",
   },
 };
 

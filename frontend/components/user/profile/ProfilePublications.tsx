@@ -55,7 +55,7 @@ async function fetchOwnDocuments(userId: string) {
     where: { authorId: userId },
     include: {
       author: { select: { id: true, name: true, image: true } },
-      _count: { select: { commentRecords: true } },
+      _count: { select: { commentRecords: { where: { isHidden: false } } } },
     },
     orderBy: { createdAt: "desc" },
   });
@@ -66,7 +66,7 @@ async function fetchLikedDocuments(userId: string) {
     where: { likeRecords: { some: { userId } } },
     include: {
       author: { select: { id: true, name: true, image: true } },
-      _count: { select: { commentRecords: true } },
+      _count: { select: { commentRecords: { where: { isHidden: false } } } },
     },
     orderBy: { createdAt: "desc" },
   });

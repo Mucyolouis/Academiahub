@@ -104,10 +104,10 @@ function buildWhere(search: string, category: string): Prisma.DocumentWhereInput
 
   if (search) {
     where.OR = [
-      { title: { contains: search, mode: "insensitive" } },
-      { description: { contains: search, mode: "insensitive" } },
-      { institution: { contains: search, mode: "insensitive" } },
-      { author: { is: { name: { contains: search, mode: "insensitive" } } } },
+      { title: { contains: search } },
+      { description: { contains: search } },
+      { institution: { contains: search } },
+      { author: { is: { name: { contains: search } } } },
     ];
   }
 
@@ -122,7 +122,7 @@ function fetchFirstPage(search: string, category: string, sort: string) {
         select: { id: true, name: true, image: true },
       },
       _count: {
-        select: { commentRecords: true },
+        select: { commentRecords: { where: { isHidden: false } } },
       },
     },
     orderBy: SORT_OPTIONS[sort] ?? SORT_OPTIONS.recent,

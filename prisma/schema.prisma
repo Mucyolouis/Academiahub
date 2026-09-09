@@ -26,6 +26,29 @@ enum NotificationType {
   COMMENT
   LIKE
   MESSAGE
+  CONNECTION_REQUEST
+  CONNECTION_ACCEPTED
+  MODERATION
+}
+
+enum ConnectionStatus {
+  PENDING
+  ACCEPTED
+  REMOVED
+}
+
+enum DocumentStatus {
+  PUBLISHED
+  HIDDEN
+}
+
+enum Resolution {
+  NONE
+  DELETED
+  HIDDEN
+  WARNED
+  SUSPENDED
+  DISMISSED
 }
 
 enum ReportReason {
@@ -74,9 +97,18 @@ model User {
   reviews           Review[]
   reports           Report[]
   profileVisitsReceived ProfileVisit[] @relation("profileVisitsReceived")
+  ownedCommunities  Community[]      @relation("communityOwner")
+  communityMemberships CommunityMember[]
+  connectionsA      Connection[]     @relation("connectionA")
+  connectionsB      Connection[]     @relation("connectionB")
+  resolvedReports   Report[]         @relation("reportResolver")
+  adminActions      AdminAction[]
   allowMessages     Boolean          @default(true)
   showInSearch      Boolean          @default(true)
   role              Role             @default(USER)
+  isSuspended       Boolean          @default(false)
+  suspendedAt       DateTime?
+  suspendedReason   String?
 }
 
 model ProfileVisit {
@@ -117,6 +149,8 @@ model Document {
   likes           Int              @default(0)
   author          User             @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId        String          
+  status          DocumentStatus   @default(PUBLISHED)
+  hiddenAt        DateTime?
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   likeRecords     Like[]
@@ -125,6 +159,7 @@ model Document {
   downloadRecords DownloadRecord[]
   reviewRecords   Review[]
   reportRecords   Report[]
+  communityLinks  DocumentCommunity[]
 }
 
 model Notification {
@@ -160,6 +195,7 @@ model Comment {
   userId     String  
   document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
   documentId String  
+  isHidden   Boolean  @default(false)
   createdAt  DateTime @default(now())
 
   @@index([documentId, createdAt])
@@ -183,6 +219,7 @@ model Review {
   userId     String  
   document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
   documentId String  
+  isHidden   Boolean  @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
@@ -191,19 +228,39 @@ model Review {
 }
 
 model Report {
-  id          String         @id @default(cuid())
-  reason      String
-  description String?
-  status      ReportStatus   @default(PENDING)
-  reporter    User           @relation(fields: [reporterId], references: [id], onDelete: Cascade)
-  reporterId  String        
-  document    Document       @relation(fields: [documentId], references: [id], onDelete: Cascade)
-  documentId  String        
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  id            String         @id @default(cuid())
+  reason        String
+  description   String?
+  status        ReportStatus   @default(PENDING)
+  resolution    Resolution     @default(NONE)
+  resolvedAt    DateTime?
+  resolver      User?          @relation("reportResolver", fields: [resolvedById], references: [id], onDelete: SetNull)
+  resolvedById  String?
+  reporter      User           @relation(fields: [reporterId], references: [id], onDelete: Cascade)
+  reporterId    String        
+  document      Document       @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  documentId    String        
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 
   @@unique([reporterId, documentId])
   @@index([documentId])
+  @@index([resolvedById])
+}
+
+model AdminAction {
+  id         String   @id @default(cuid())
+  actor      User     @relation(fields: [actorId], references: [id], onDelete: Cascade)
+  actorId    String
+  action     String
+  targetType String
+  targetId   String
+  details    String?
+  createdAt  DateTime @default(now())
+
+  @@index([actorId])
+  @@index([targetType, targetId])
+  @@index([createdAt])
 }
 
 model DownloadRecord {
@@ -251,4 +308,60 @@ model ReadReceipt {
   readAt            DateTime     @default(now())
 
   @@unique([conversationId, userId])
+}
+
+model Community {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String
+  image       String?
+  owner       User     @relation("communityOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     String
+  members     CommunityMember[]
+  documents   DocumentCommunity[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([ownerId])
+}
+
+model CommunityMember {
+  id          String    @id @default(cuid())
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  communityId String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  createdAt   DateTime  @default(now())
+
+  @@unique([communityId, userId])
+  @@index([userId])
+}
+
+model DocumentCommunity {
+  id          String    @id @default(cuid())
+  document    Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  documentId  String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  communityId String
+  createdAt   DateTime  @default(now())
+
+  @@unique([documentId, communityId])
+  @@index([communityId])
+}
+
+model Connection {
+  id          String           @id @default(cuid())
+  userAId     String
+  userBId     String
+  requesterId String
+  status      ConnectionStatus @default(PENDING)
+  userA       User             @relation("connectionA", fields: [userAId], references: [id], onDelete: Cascade)
+  userB       User             @relation("connectionB", fields: [userBId], references: [id], onDelete: Cascade)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@unique([userAId, userBId])
+  @@index([requesterId])
+  @@index([userBId, status])
 }

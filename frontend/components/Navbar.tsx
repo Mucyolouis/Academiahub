@@ -21,6 +21,11 @@ const navlinks = [
     href: "/explore",
   },
   {
+    id: 8,
+    name: "Communities",
+    href: "/communities",
+  },
+  {
     id: 3,
     name: "Features",
     href: "/features",

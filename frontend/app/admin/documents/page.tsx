@@ -1,11 +1,15 @@
 import Link from "next/link";
+import { Prisma } from "@prisma/client";
 import prisma from "@/prisma/connection";
 import AdminDeleteButton from "../_components/AdminDeleteButton";
+import DocumentStatusToggle from "../_components/DocumentStatusToggle";
 import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
 
 const PAGE_SIZE = 12;
+const STATUS_TABS = ["ALL", "PUBLISHED", "HIDDEN"] as const;
+type StatusFilter = (typeof STATUS_TABS)[number];
 
 const formatBytes = (bytes: number) =>
   bytes >= 1024 * 1024
@@ -15,13 +19,18 @@ const formatBytes = (bytes: number) =>
 export default async function AdminDocumentsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; page?: string }>;
+  searchParams: Promise<{ q?: string; page?: string; status?: string }>;
 }) {
-  const { q, page: pageParam } = await searchParams;
+  const { q, page: pageParam, status: statusParam } = await searchParams;
   const term = (q ?? "").trim();
   const page = Math.max(1, parseInt(pageParam ?? "1") || 1);
+  const status: StatusFilter = (STATUS_TABS as readonly string[]).includes(
+    statusParam ?? "",
+  )
+    ? (statusParam as StatusFilter)
+    : "ALL";
 
-  const where = term
+  const where: Prisma.DocumentWhereInput = term
     ? {
         OR: [
           { title: { contains: term } },
@@ -30,6 +39,10 @@ export default async function AdminDocumentsPage({
         ],
       }
     : {};
+
+  if (status !== "ALL") {
+    where.status = status;
+  }
 
   const [documents, total] = await Promise.all([
     prisma.document.findMany({
@@ -46,6 +59,7 @@ export default async function AdminDocumentsPage({
         fileName: true,
         fileSize: true,
         downloads: true,
+        status: true,
         createdAt: true,
         author: { select: { id: true, name: true } },
       },
@@ -76,6 +90,23 @@ export default async function AdminDocumentsPage({
         </form>
       </div>
 
+      <div className="flex flex-wrap gap-2">
+        {STATUS_TABS.map((tab) => (
+          <Button
+            key={tab}
+            asChild
+            size="sm"
+            variant={status === tab ? "default" : "outline"}
+          >
+            <Link
+              href={`/admin/documents?status=${tab}${term ? `&q=${encodeURIComponent(term)}` : ""}`}
+            >
+              {tab === "ALL" ? "All" : tab.charAt(0) + tab.slice(1).toLowerCase()}
+            </Link>
+          </Button>
+        ))}
+      </div>
+
       {documents.length === 0 ? (
         <p className="text-sm text-gray-500">No documents found.</p>
       ) : (
@@ -88,6 +119,7 @@ export default async function AdminDocumentsPage({
                 <th className="px-4 py-3 font-medium">Category</th>
                 <th className="px-4 py-3 font-medium">Size</th>
                 <th className="px-4 py-3 font-medium">Downloads</th>
+                <th className="px-4 py-3 font-medium">Status</th>
                 <th className="px-4 py-3 font-medium text-right">Actions</th>
               </tr>
             </thead>
@@ -115,12 +147,29 @@ export default async function AdminDocumentsPage({
                     {formatBytes(doc.fileSize)}
                   </td>
                   <td className="px-4 py-3 text-gray-600">{doc.downloads}</td>
+                  <td className="px-4 py-3">
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                        doc.status === "PUBLISHED"
+                          ? "bg-green-50 text-green-700"
+                          : "bg-orange-50 text-orange-700"
+                      }`}
+                    >
+                      {doc.status}
+                    </span>
+                  </td>
                   <td className="px-4 py-3 text-right">
-                    <AdminDeleteButton
-                      url={`/api/admin/documents/${doc.id}`}
-                      label="Delete"
-                      confirmMessage={`Permanently delete "${doc.title}"? This also removes the stored PDF.`}
-                    />
+                    <div className="flex justify-end gap-2">
+                      <DocumentStatusToggle
+                        documentId={doc.id}
+                        status={doc.status}
+                      />
+                      <AdminDeleteButton
+                        url={`/api/admin/documents/${doc.id}`}
+                        label="Delete"
+                        confirmMessage={`Permanently delete "${doc.title}"? This also removes the stored PDF.`}
+                      />
+                    </div>
                   </td>
                 </tr>
               ))}

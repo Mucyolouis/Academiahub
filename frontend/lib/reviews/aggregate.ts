@@ -11,7 +11,7 @@ export const getReviewAggregate = cache(
   async (documentId: string): Promise<ReviewAggregate> => {
     const grouped = await prisma.review.groupBy({
       by: ["rating"],
-      where: { documentId },
+      where: { documentId, isHidden: false },
       _count: { _all: true },
     });
 

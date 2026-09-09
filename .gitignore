@@ -1,9 +1,5 @@
 node_modules
-.env
-.env.local
 DS_Store
 .claude
 *.db
 *.db-journal
-prisma/dev.db
-backend/src/generated

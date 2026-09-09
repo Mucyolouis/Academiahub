@@ -45,6 +45,10 @@ export const authOptions:NextAuthOptions = {
             const isValid = await argon2.verify(user.password, credentials.password);
             if (!isValid) throw new Error("Invalid email or password");
 
+            if (user.isSuspended) {
+                throw new Error("Your account has been suspended. Contact an administrator.")
+            }
+
             // Check if email is verified
             if (!user.emailVerified) {
                 throw new Error("EMAIL_NOT_VERIFIED")
@@ -66,6 +70,9 @@ export const authOptions:NextAuthOptions = {
     async signIn({ user, account}) {
       if (account?.provider === "google") {
         const existingUser = await prisma.user.findFirst({ where: { email: user.email! } });
+        if (existingUser?.isSuspended) {
+          return false;
+        }
         if (!existingUser) {
           await prisma.user.create({
             data: {
@@ -95,21 +102,27 @@ export const authOptions:NextAuthOptions = {
         });
         if (dbUser) {
           token.sub = dbUser.id;
-          if (!token.role) token.role = dbUser.role;
+          // Always refresh role so demotions/promotions apply without a re-login.
+          token.role = dbUser.role;
         }
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({ session }) {
       const loggedInUser = await prisma.user.findFirst({
          where: { email: session.user?.email },
-         select: { id: true, role: true }
+         select: { id: true, role: true, isSuspended: true }
         });
-      session.user.id = loggedInUser!.id;
+      if (!loggedInUser || loggedInUser.isSuspended) {
+        // User was deleted or suspended (e.g. by an admin); keep the session
+        // shape valid instead of throwing a 500 on every authenticated request.
+        return { ...session, user: { ...session.user, id: "", role: "USER" } };
+      }
+      session.user.id = loggedInUser.id;
       session.user.name = session.user.name!;
       session.user.email = session.user.email!;
       session.user.image = session.user.image!;
-      session.user.role = loggedInUser?.role ?? token.role ?? "USER";
+      session.user.role = loggedInUser.role;
 
       return session
     },

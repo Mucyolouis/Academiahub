@@ -22,7 +22,7 @@ const DownloadedDocuments = async () => {
       document: {
         include: {
           author: { select: { id: true, name: true, image: true } },
-          _count: { select: { commentRecords: true } },
+          _count: { select: { commentRecords: { where: { isHidden: false } } } },
         },
       },
     },

@@ -11,7 +11,9 @@ import {
   LogOut,
   Mail,
   Settings,
+  Users,
   User,
+  UserPlus,
 } from "lucide-react";
 
 interface SideLink {
@@ -33,6 +35,11 @@ export const sideLinks: SideLink[] = [
     link: "/dashboard",
   },
   {
+    icon: <Users size={20} strokeWidth={1.5} />,
+    label: "Communities",
+    link: "/communities",
+  },
+  {
     icon: <CloudDownload size={20} strokeWidth={1.5} />,
     label: "Downloads",
     link: "/downloads",
@@ -51,6 +58,11 @@ export const sideLinks: SideLink[] = [
     icon: <Mail size={20} strokeWidth={1.5} />,
     label: "inbox",
     link: "/inbox",
+  },
+  {
+    icon: <UserPlus size={20} strokeWidth={1.5} />,
+    label: "Connections",
+    link: "/connections",
   },
   {
     icon: <CloudUpload size={20} strokeWidth={1.5} />,
@@ -107,6 +119,10 @@ export const userPagesMetadata: Record<
     title: "Uploads – User",
     description: "Upload research and academic materials.",
   },
+  communities: {
+    title: "Communities – User",
+    description: "Discover and join academic communities.",
+  },
   saved: {
     title: "Saved Items – User",
     description: "Your saved documents and materials.",
@@ -114,6 +130,10 @@ export const userPagesMetadata: Record<
   inbox: {
     title: "Inbox – User",
     description: "Messages and notifications.",
+  },
+  connections: {
+    title: "Connections – User",
+    description: "Manage your academic connections.",
   },
   profile: {
     title: "Your Profile",

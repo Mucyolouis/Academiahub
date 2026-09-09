@@ -8,7 +8,7 @@ import Description from "./Description";
 import { formatToMB } from "@/lib/utils";
 import { getInitials } from "@/lib/messaging/utils";
 import { getCategoryImage } from "@/lib/categoryImage";
-import MessageAuthorButton from "./MessageAuthorButton";
+import ConnectionButton from "@/components/connections/ConnectionButton";
 import DownloadButton from "../shared/DownloadButton";
 import Like from "@/components/Like";
 import SaveButton from "@/components/SaveButton";
@@ -43,7 +43,7 @@ const PublicationDetails = ({id, details, isLiked, isSaved, isOwner }: { details
         </Link>
 
         {/* message button for mobile */}
-        <MessageAuthorButton authorId={details.authorId} className="md:hidden p-1" label="Message" />
+        <ConnectionButton userId={details.authorId} className="md:hidden p-1" />
       </div>
 
       <div className="relative rounded-[12px] w-full h-34.25 md:h-59.75 mb-4.25 lg:mb-5.5">

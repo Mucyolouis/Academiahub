@@ -66,7 +66,7 @@ export async function POST(
     }
 
     const document = await prisma.document.findUnique({
-      where: { id: documentId },
+      where: { id: documentId, status: "PUBLISHED" },
       select: { authorId: true },
     });
 

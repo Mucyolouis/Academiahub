@@ -19,10 +19,10 @@ const MainContent = async ({
     fetchProfile(otherUserId),
     getServerSession(authOptions),
     prisma.document.findMany({
-      where: { authorId: otherUserId },
+      where: { authorId: otherUserId, status: "PUBLISHED" },
       include: {
         author: { select: { id: true, name: true, image: true } },
-        _count: { select: { commentRecords: true } },
+        _count: { select: { commentRecords: { where: { isHidden: false } } } },
       },
       orderBy: { createdAt: "desc" },
     }),
@@ -95,9 +95,9 @@ async function fetchProfile(userId: string): Promise<Profile> {
   }
 
   const [uploadCount, documents, savesReceived] = await Promise.all([
-    prisma.document.count({ where: { authorId: userId } }),
+    prisma.document.count({ where: { authorId: userId, status: "PUBLISHED" } }),
     prisma.document.findMany({
-      where: { authorId: userId },
+      where: { authorId: userId, status: "PUBLISHED" },
       select: { downloads: true, likes: true },
     }),
     prisma.save.count({

@@ -28,8 +28,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useCallback } from "react";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Textarea } from "@/components/ui/textarea";
 import { uploadFileWithProgress } from "@/lib/upload-client";
+import { useQuery } from "@tanstack/react-query";
+import { fetchCommunities } from "@/lib/communities/api";
 
 const PDF_MIME = "application/pdf";
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
@@ -54,6 +57,9 @@ const formSchema = z.object({
   category: z.string().min(1, "Please select a category"),
   institution: z.string().min(3, "Institution is required"),
   year: z.string().min(4, "Year is required"),
+  communityIds: z
+    .array(z.string())
+    .min(1, "Select at least one community"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -88,10 +94,32 @@ const UploadForm = () => {
       category: "",
       institution: "",
       year: "",
+      communityIds: [],
     },
   });
 
   const selectedFile = watch("file");
+
+  const joinedCommunitiesQuery = useQuery({
+    queryKey: ["communities", "joined"],
+    queryFn: () => fetchCommunities({ joined: true, limit: 100 }),
+  });
+
+  const joinedCommunities = joinedCommunitiesQuery.data?.communities ?? [];
+  const selectedCommunityIds = watch("communityIds");
+
+  const toggleCommunity = useCallback(
+    (communityId: string) => {
+      setValue(
+        "communityIds",
+        selectedCommunityIds.includes(communityId)
+          ? selectedCommunityIds.filter((id) => id !== communityId)
+          : [...selectedCommunityIds, communityId],
+        { shouldValidate: true },
+      );
+    },
+    [selectedCommunityIds, setValue],
+  );
 
   const handleFileChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -142,6 +170,7 @@ const UploadForm = () => {
           fileKey: uploaded.key,
           fileName: uploaded.fileName,
           fileSize: uploaded.bytes,
+          communityIds: data.communityIds,
         }),
       });
 
@@ -289,6 +318,62 @@ const UploadForm = () => {
             />
             {errors.category && (
               <FieldError>{errors.category.message}</FieldError>
+            )}
+          </Field>
+
+          {/* COMMUNITIES */}
+          <Field>
+            <FieldLabel htmlFor="communities">
+              Communities <span className="text-red-500">*</span>
+            </FieldLabel>
+            <FieldDescription>
+              Select one or more communities to publish this document to.
+            </FieldDescription>
+
+            {joinedCommunitiesQuery.isLoading ? (
+              <div className="bg-[#FAFAFA] border-none h-14 rounded-lg shadow flex items-center px-4 text-sm text-grey">
+                Loading communities...
+              </div>
+            ) : joinedCommunities.length === 0 ? (
+              <div className="bg-[#FAFAFA] border-none rounded-lg shadow px-4 py-4 text-sm text-grey space-y-2">
+                <p>
+                  You haven&apos;t joined any communities yet. Join or create one
+                  to publish your document.
+                </p>
+                <Link
+                  href="/communities"
+                  className="text-primary font-medium underline underline-offset-2"
+                >
+                  Browse communities
+                </Link>
+              </div>
+            ) : (
+              <div className="bg-[#FAFAFA] border-none rounded-lg shadow px-4 py-3 flex flex-col gap-1 max-h-48 overflow-y-auto">
+                {joinedCommunities.map((community) => {
+                  const checked = selectedCommunityIds.includes(community.id);
+                  return (
+                    <label
+                      key={community.id}
+                      htmlFor={`community-${community.id}`}
+                      className={`flex justify-between items-center gap-3 cursor-pointer rounded-lg px-2 py-2.5 text-sm transition-colors ${
+                        checked ? "bg-primary/10" : "hover:bg-grey/10"
+                      }`}
+                    >
+                      <span className="font-medium">{community.name}</span>
+                      <input
+                        id={`community-${community.id}`}
+                        type="checkbox"
+                        checked={checked}
+                        onChange={() => toggleCommunity(community.id)}
+                        className="size-4 cursor-pointer accent-primary"
+                      />
+                    </label>
+                  );
+                })}
+              </div>
+            )}
+            {errors.communityIds && (
+              <FieldError>{errors.communityIds.message}</FieldError>
             )}
           </Field>
 

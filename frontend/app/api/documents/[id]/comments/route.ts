@@ -28,7 +28,7 @@ export async function GET(
 
     const [comments, total] = await Promise.all([
       prisma.comment.findMany({
-        where: { documentId },
+        where: { documentId, isHidden: false },
         include: {
           user: { select: { id: true, name: true, image: true } },
         },
@@ -36,7 +36,7 @@ export async function GET(
         skip,
         take: limit,
       }),
-      prisma.comment.count({ where: { documentId } }),
+      prisma.comment.count({ where: { documentId, isHidden: false } }),
     ]);
 
     return NextResponse.json({
@@ -84,7 +84,7 @@ export async function POST(
     }
 
     const document = await prisma.document.findUnique({
-      where: { id: documentId },
+      where: { id: documentId, status: "PUBLISHED" },
       select: { id: true, authorId: true },
     });
 

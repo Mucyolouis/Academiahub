@@ -1,18 +1,21 @@
 import Link from "next/link";
-import { FileText, Flag, Users, Download } from "lucide-react";
+import { FileText, Flag, Users, Download, EyeOff } from "lucide-react";
 import prisma from "@/prisma/connection";
 
 export const dynamic = "force-dynamic";
 
 const CARDS = [
   { key: "users", label: "Users", icon: Users, href: "/admin/users" },
+  { key: "suspendedUsers", label: "Suspended users", icon: EyeOff, href: "/admin/users" },
   { key: "documents", label: "Documents", icon: FileText, href: "/admin/documents" },
+  { key: "hiddenDocs", label: "Hidden documents", icon: EyeOff, href: "/admin/documents?status=HIDDEN" },
   { key: "pendingReports", label: "Pending reports", icon: Flag, href: "/admin/reports" },
   { key: "downloads", label: "Total downloads", icon: Download, href: null },
+  { key: "hiddenComments", label: "Hidden comments", icon: EyeOff, href: null },
 ] as const;
 
 export default async function AdminOverviewPage() {
-  const [users, documents, pendingReports, downloadAgg, recentReports] =
+  const [users, documents, pendingReports, downloadAgg, recentReports, suspendedUsers, hiddenDocs, hiddenComments, recentActions] =
     await Promise.all([
       prisma.user.count(),
       prisma.document.count(),
@@ -30,13 +33,31 @@ export default async function AdminOverviewPage() {
           document: { select: { id: true, title: true } },
         },
       }),
+      prisma.user.count({ where: { isSuspended: true } }),
+      prisma.document.count({ where: { status: "HIDDEN" } }),
+      prisma.comment.count({ where: { isHidden: true } }),
+      prisma.adminAction.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 5,
+        select: {
+          id: true,
+          action: true,
+          targetType: true,
+          targetId: true,
+          createdAt: true,
+          actor: { select: { name: true, email: true } },
+        },
+      }),
     ]);
 
   const values: Record<string, number> = {
     users,
+    suspendedUsers,
     documents,
+    hiddenDocs,
     pendingReports,
     downloads: downloadAgg._sum.downloads ?? 0,
+    hiddenComments,
   };
 
   return (
@@ -98,6 +119,36 @@ export default async function AdminOverviewPage() {
                 >
                   Review
                 </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="font-semibold">Recent activity</h2>
+          <Link href="/admin/audit" className="text-xs font-medium text-primary hover:underline">
+            View all
+          </Link>
+        </div>
+        {recentActions.length === 0 ? (
+          <p className="text-sm text-gray-500">No activity yet.</p>
+        ) : (
+          <ul className="divide-y rounded-xl border bg-white shadow-sm">
+            {recentActions.map((action) => (
+              <li
+                key={action.id}
+                className="flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-3 text-sm"
+              >
+                <span className="font-medium">{action.action}</span>
+                <span className="text-gray-500">
+                  {action.targetType}:{action.targetId.slice(0, 8)}
+                </span>
+                <span className="text-gray-400 ml-auto text-xs">
+                  {action.actor?.name ?? action.actor?.email ?? "unknown"} ·{" "}
+                  {action.createdAt.toLocaleString()}
+                </span>
               </li>
             ))}
           </ul>

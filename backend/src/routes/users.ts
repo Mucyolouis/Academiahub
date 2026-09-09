@@ -31,9 +31,9 @@ router.get(
       const users = await prisma.user.findMany({
         where: {
           id: { not: userId },
+          showInSearch: true,
           name: {
             startsWith: sanitizedQuery,
-            mode: "insensitive",
           },
         },
         select: {
@@ -44,6 +44,38 @@ router.get(
         },
         take: 10,
       });
+
+      // Attach the requester's connection status with each result so the UI
+      // can disable actions for non-connected users.
+      if (users.length > 0) {
+        const statuses = await prisma.connection.findMany({
+          where: {
+            OR: [
+              { userAId: userId, userBId: { in: users.map((u) => u.id) } },
+              { userBId: userId, userAId: { in: users.map((u) => u.id) } },
+            ],
+          },
+          select: { userAId: true, userBId: true, status: true, requesterId: true },
+        });
+
+        const statusByUserId = new Map<string, "none" | "pending-sent" | "pending-incoming" | "accepted">();
+        for (const conn of statuses) {
+          const otherId = conn.userAId === userId ? conn.userBId : conn.userAId;
+          if (conn.status !== "ACCEPTED") {
+            statusByUserId.set(
+              otherId,
+              conn.requesterId === userId ? "pending-sent" : "pending-incoming",
+            );
+          } else {
+            statusByUserId.set(otherId, "accepted");
+          }
+        }
+
+        users.forEach((u) => {
+          (u as { connectionStatus?: string }).connectionStatus =
+            statusByUserId.get(u.id) ?? "none";
+        });
+      }
 
       res.status(200).json(users);
     } catch {

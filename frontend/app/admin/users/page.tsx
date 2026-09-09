@@ -3,7 +3,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma/connection";
 import UserRoleControls from "../_components/UserRoleControls";
+import UserModerationControls from "../_components/UserModerationControls";
 import AdminDeleteButton from "../_components/AdminDeleteButton";
+import UserFormDialog from "../_components/UserFormDialog";
 import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
@@ -44,6 +46,7 @@ export default async function AdminUsersPage({
         email: true,
         image: true,
         role: true,
+        isSuspended: true,
         emailVerified: true,
         _count: { select: { Document: true } },
       },
@@ -60,18 +63,21 @@ export default async function AdminUsersPage({
           <h1 className="text-2xl font-bold tracking-tight">Users</h1>
           <p className="text-sm text-gray-500 mt-1">{total} registered</p>
         </div>
-        <form action="/admin/users" className="flex gap-2">
-          <input
-            type="search"
-            name="q"
-            defaultValue={term}
-            placeholder="Search name or email…"
-            className="h-9 w-64 rounded-lg border bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-primary/30"
-          />
-          <Button size="sm" type="submit">
-            Search
-          </Button>
-        </form>
+        <div className="flex gap-2">
+          <form action="/admin/users" className="flex gap-2">
+            <input
+              type="search"
+              name="q"
+              defaultValue={term}
+              placeholder="Search name or email…"
+              className="h-9 w-64 rounded-lg border bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-primary/30"
+            />
+            <Button size="sm" type="submit">
+              Search
+            </Button>
+          </form>
+          <UserFormDialog />
+        </div>
       </div>
 
       {users.length === 0 ? (
@@ -93,11 +99,19 @@ export default async function AdminUsersPage({
                 return (
                   <tr key={user.id} className="hover:bg-gray-50/60">
                     <td className="px-4 py-3">
-                      <span className="font-medium">
+                      <Link
+                        href={`/admin/users/${user.id}`}
+                        className="font-medium hover:underline"
+                      >
                         {user.name ?? "Unnamed"}
-                      </span>
+                      </Link>
                       {isSelf ? (
                         <span className="ml-2 text-xs text-gray-400">(you)</span>
+                      ) : null}
+                      {user.isSuspended ? (
+                        <span className="ml-2 px-1.5 py-0.5 rounded-full bg-red-50 text-red-600 text-[10px] font-medium">
+                          suspended
+                        </span>
                       ) : null}
                       <span className="block text-xs text-gray-400">
                         {user.email}
@@ -125,9 +139,23 @@ export default async function AdminUsersPage({
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex justify-end gap-2">
+                        <UserFormDialog
+                          user={{
+                            id: user.id,
+                            name: user.name,
+                            email: user.email,
+                            role: user.role,
+                          }}
+                        />
                         <UserRoleControls
                           userId={user.id}
                           role={user.role}
+                          isSelf={isSelf}
+                        />
+                        <UserModerationControls
+                          userId={user.id}
+                          isSuspended={user.isSuspended}
+                          emailVerified={!!user.emailVerified}
                           isSelf={isSelf}
                         />
                         {!isSelf ? (

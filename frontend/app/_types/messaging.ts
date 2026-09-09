@@ -11,6 +11,7 @@ export interface UserSearchResult {
   name: string | null;
   email: string;
   image: string | null;
+  connectionStatus?: "none" | "pending-sent" | "pending-incoming" | "accepted";
 }
 
 export interface ConversationListItem {
@@ -55,6 +56,27 @@ export interface ReadReceipt {
   lastReadMessageId: string;
   readAt: string;
   user: { id: string; name: string | null };
+}
+
+// ─── Connection / Connection Request Types ────────────────────────────
+
+export type ConnectionStatusValue =
+  | "none"
+  | "pending-sent"
+  | "pending-incoming"
+  | "accepted";
+
+export interface ConnectionListItem {
+  id: string;
+  status: "PENDING" | "ACCEPTED";
+  requesterId: string;
+  user: UserSummary;
+  createdAt: string;
+}
+
+export interface ConnectionStatusResult {
+  status: ConnectionStatusValue;
+  connectionId: string | null;
 }
 
 // ─── Socket.IO Event Payloads ──────────────────────────────────────────
@@ -114,7 +136,7 @@ export interface SocketErrorPayload {
 
 export interface NotificationNewPayload {
   id: string;
-  type: "COMMENT" | "LIKE" | "MESSAGE";
+  type: "COMMENT" | "LIKE" | "MESSAGE" | "CONNECTION_REQUEST" | "CONNECTION_ACCEPTED" | "MODERATION";
   message: string;
   link: string | null;
   actorId: string | null;

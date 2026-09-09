@@ -17,6 +17,7 @@ const ExploreSection = async ({
   showViewAllButton = true,
 }: ExploreSectionProps) => {
   const documents = await prisma.document.findMany({
+    where: { status: "PUBLISHED" },
     include: {
       author: {
         select: { id: true, name: true, image: true },

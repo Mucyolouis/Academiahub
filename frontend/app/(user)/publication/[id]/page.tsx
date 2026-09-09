@@ -23,7 +23,7 @@ export async function generateMetadata(
     },
   });
 
-  if (!document) {
+  if (!document || document.status === "HIDDEN") {
     return {
       title: "Document Not Found",
     };

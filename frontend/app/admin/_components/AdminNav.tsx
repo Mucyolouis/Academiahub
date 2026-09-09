@@ -6,7 +6,11 @@ import {
   LayoutDashboard,
   FileText,
   Flag,
+  MessageCircle,
+  ScrollText,
+  Star,
   Users,
+  UsersRound,
 } from "lucide-react";
 
 const LINKS = [
@@ -14,6 +18,10 @@ const LINKS = [
   { href: "/admin/reports", label: "Reports", icon: Flag },
   { href: "/admin/documents", label: "Documents", icon: FileText },
   { href: "/admin/users", label: "Users", icon: Users },
+  { href: "/admin/comments", label: "Comments", icon: MessageCircle },
+  { href: "/admin/reviews", label: "Reviews", icon: Star },
+  { href: "/admin/communities", label: "Communities", icon: UsersRound },
+  { href: "/admin/audit", label: "Audit log", icon: ScrollText },
 ];
 
 const AdminNav = () => {
