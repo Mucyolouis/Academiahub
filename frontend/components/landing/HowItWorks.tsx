@@ -6,7 +6,7 @@ const HowItWorks = () => {
   return (
     <div className=' my-14 '>
       <header className='mb-4 lg:mb-9'>
-        <h2 className='font-medium text-xl leading-[130%] text-center mb-4 lg:font-bold lg:text-[32px] lg:leading-[100%]'>How AcademiaHub works </h2>
+        <h2 className='font-medium text-xl leading-[130%] text-center mb-4 lg:font-bold lg:text-[32px] lg:leading-[100%]'>How IvomoHub works </h2>
         <p className='font-medium text-sm leading-[130%] text-center lg:text-2xl lg:font-normal lg:leading-[100%]'>Get started in minutes and access thousands of academic resources from various institutions.</p>
       </header>
 

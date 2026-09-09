@@ -5,8 +5,8 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import CreateCommunityForm from "@/components/communities/CreateCommunityForm";
 
 export const metadata: Metadata = {
-  title: "Create Community – Academia Hub Africa",
-  description: "Start a new academic community on Academia Hub Africa.",
+  title: "Create Community – Ivomo Hub Africa",
+  description: "Start a new academic community on Ivomo Hub Africa.",
 };
 
 const CreateCommunityPage = async () => {

@@ -21,7 +21,7 @@ const PrivacyPolicy = () => {
         {/* Header Section */}
         <header className="border-b border-slate-100 p-8 md:p-12 bg-white">
           <h1 className="text-3xl font-bold text-slate-900">
-            AcademiaHub Africa
+            IvomoHub Africa
           </h1>
           <h2 className="text-xl font-semibold text-slate-700 mt-1">
             Privacy Policy
@@ -57,7 +57,7 @@ const PrivacyPolicy = () => {
           <main className="flex-1 p-8 md:p-12 leading-relaxed space-y-10 bg-white">
             <section>
               <p>
-                AcademiaHub Africa (“we”, “us”, or “our”) is committed to
+                IvomoHub Africa (“we”, “us”, or “our”) is committed to
                 protecting the privacy and personal data of all users of our
                 academic research platform. This Privacy Policy describes how we
                 collect, use, store, share, and protect your information when
@@ -221,7 +221,7 @@ const PrivacyPolicy = () => {
                     4.1 We Do Not Sell Your Data
                   </h3>
                   <p>
-                    AcademiaHub Africa does not sell, rent, or trade your
+                    IvomoHub Africa does not sell, rent, or trade your
                     personal information to third parties for commercial
                     purposes.
                   </p>
@@ -371,10 +371,10 @@ const PrivacyPolicy = () => {
               <p className="mt-6">
                 To exercise any of these rights, contact us at:{" "}
                 <a
-                  href="mailto:support@mail.academiahubafrica.org"
+                  href="mailto:support@mail.ivomohubafrica.org"
                   className="text-blue-600"
                 >
-                  support@mail.academiahubafrica.org
+                  support@mail.ivomohubafrica.org
                 </a>
                 . We will respond within 30 days of receiving your request.
               </p>
@@ -447,13 +447,13 @@ const PrivacyPolicy = () => {
                 <p>
                   Email:{" "}
                   <span className="text-blue-600 font-normal">
-                    support@mail.academiahubafrica.org
+                    support@mail.ivomohubafrica.org
                   </span>
                 </p>
                 <p>
                   Postal Address:{" "}
                   <span className="font-normal text-slate-700">
-                    AcademiaHub Africa, Data Protection Officer, [Registered
+                    IvomoHub Africa, Data Protection Officer, [Registered
                     Address], Nigeria
                   </span>
                 </p>

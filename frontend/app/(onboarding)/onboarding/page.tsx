@@ -5,7 +5,7 @@ import prisma from "@/prisma/connection";
 import OnboardingStepper from "@/components/onboarding/OnboardingStepper";
 
 export const metadata = {
-  title: "Welcome | AcademiaHub",
+  title: "Welcome | IvomoHub",
 };
 
 export default async function OnboardingPage() {

@@ -28,7 +28,7 @@ export async function generateMetadata(
       title: "Document Not Found",
     };
   }
-  const baseUrl = "https://academiahubafrica.org/";
+  const baseUrl = "https://ivomohubafrica.org/";
   const previousImages = (await parent).openGraph?.images || [];
   const currentImageUrl = baseUrl + getCategoryImage(document?.category);
   const userName = document?.author?.name;
@@ -36,7 +36,7 @@ export async function generateMetadata(
     title: {
       absolute: document.title,
     },
-    description: `Read "${document.title}" by ${userName} on Academia Hub Africa.`,
+    description: `Read "${document.title}" by ${userName} on Ivomo Hub Africa.`,
     openGraph: {
       title: document.title,
       description: `Written by ${userName}`,

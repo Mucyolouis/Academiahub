@@ -22,7 +22,7 @@ const TermsOfService = () => {
         {/* Header Section */}
         <header className="border-b border-slate-100 p-8 md:p-12 bg-white">
           <h1 className="text-3xl font-bold text-slate-900">
-            AcademiaHub Africa
+            IvomoHub Africa
           </h1>
           <h2 className="text-xl font-semibold text-slate-700 mt-1">
             Terms of Service
@@ -59,13 +59,13 @@ const TermsOfService = () => {
             <section>
               <p>
                 Please read these Terms of Service (“Terms”) carefully before
-                using the AcademiaHub Africa platform (“Platform”). By creating
+                using the IvomoHub Africa platform (“Platform”). By creating
                 an account or accessing the Platform, you agree to be bound by
                 these Terms. If you do not agree, do not use the Platform.
               </p>
               <p className="mt-4 font-medium">
                 These Terms constitute a legally binding agreement between you
-                (“User”) and AcademiaHub Africa (“Company”, “we”, “us”).
+                (“User”) and IvomoHub Africa (“Company”, “we”, “us”).
               </p>
             </section>
 
@@ -175,7 +175,7 @@ const TermsOfService = () => {
                   <p>
                     You retain ownership of all content you upload to the
                     Platform (“User Content”). By uploading content, you grant
-                    AcademiaHub Africa a non-exclusive, royalty-free, worldwide
+                    IvomoHub Africa a non-exclusive, royalty-free, worldwide
                     licence to host, store, display, and distribute your content
                     solely as necessary to operate and provide the Platform
                     services.
@@ -187,7 +187,7 @@ const TermsOfService = () => {
                   </h3>
                   <p>
                     All Platform software, designs, interfaces, branding, and
-                    proprietary tools are owned by or licenced to AcademiaHub
+                    proprietary tools are owned by or licenced to IvomoHub
                     Africa. You may not reproduce, modify, distribute, or create
                     derivative works of Platform content without express written
                     permission.
@@ -240,7 +240,7 @@ const TermsOfService = () => {
                 6. Academic Integrity
               </h2>
               <p className="mb-4 text-slate-700">
-                AcademiaHub Africa is committed to upholding the highest
+                IvomoHub Africa is committed to upholding the highest
                 standards of academic integrity. All users must:
               </p>
               <ul className="list-disc ml-6 space-y-2 text-slate-700">
@@ -297,12 +297,12 @@ const TermsOfService = () => {
                 <p className="uppercase font-bold tracking-tight">
                   THE PLATFORM IS PROVIDED “AS IS” AND “AS AVAILABLE” WITHOUT
                   WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED. TO THE FULLEST
-                  EXTENT PERMITTED BY APPLICABLE LAW, ACADEMIAHUB AFRICA
+                  EXTENT PERMITTED BY APPLICABLE LAW, IVOMOHUB AFRICA
                   DISCLAIMS ALL WARRANTIES INCLUDING MERCHANTABILITY, FITNESS
                   FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
                 </p>
                 <p className="uppercase font-bold tracking-tight">
-                  IN NO EVENT SHALL ACADEMIAHUB AFRICA BE LIABLE FOR ANY
+                  IN NO EVENT SHALL IVOMOHUB AFRICA BE LIABLE FOR ANY
                   INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE
                   DAMAGES ARISING FROM YOUR USE OF THE PLATFORM, EVEN IF ADVISED
                   OF THE POSSIBILITY OF SUCH DAMAGES. OUR TOTAL LIABILITY FOR
@@ -317,7 +317,7 @@ const TermsOfService = () => {
                 9. Indemnification
               </h2>
               <p>
-                You agree to indemnify and hold harmless AcademiaHub Africa, its
+                You agree to indemnify and hold harmless IvomoHub Africa, its
                 directors, officers, employees, and agents from any claims,
                 damages, losses, or expenses (including legal fees) arising out
                 of your use of the Platform, your violation of these Terms, or
@@ -365,16 +365,16 @@ const TermsOfService = () => {
                 <p className="font-bold">
                   Email:{" "}
                   <a
-                    href="mailto:support@mail.academiahubafrica.org"
+                    href="mailto:support@mail.ivomohubafrica.org"
                     className="text-blue-600 font-normal hover:underline"
                   >
-                    support@mail.academiahubafrica.org
+                    support@mail.ivomohubafrica.org
                   </a>
                 </p>
                 <p className="font-bold text-slate-900">
                   Address:{" "}
                   <span className="font-normal text-slate-700">
-                    AcademiaHub Africa, Legal Department Nigeria
+                    IvomoHub Africa, Legal Department Nigeria
                   </span>
                 </p>
               </div>

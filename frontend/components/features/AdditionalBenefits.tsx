@@ -50,7 +50,7 @@ const AdditionalBenefits = () => {
             Additional Benefits
           </h1>
           <p className="text-base md:text-lg text-gray-700 font-medium">
-            Even more reasons to choose AcademiaHub for your academic research needs
+            Even more reasons to choose IvomoHub for your academic research needs
           </p>
         </header>
 

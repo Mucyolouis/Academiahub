@@ -16,7 +16,7 @@ const AboutUs = () => {
                   Our Story
                 </h2>
                 <p className="text-base lg:text-lg text-gray-700 leading-relaxed">
-                  AcademiaHub was born from a simple observation: students
+                  IvomoHub was born from a simple observation: students
                   across different universities were struggling to access
                   quality research materials, while countless valuable academic
                   projects remained locked away in institutional archives.

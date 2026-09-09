@@ -44,7 +44,7 @@ const LandingFaq = ({ hideHeader, fullWidth = false }: LandingFaqProps) => {
               Frequently Asked Questions
             </h2>
             <p className="font-medium text-sm lg:text-2xl lg:font-normal text-center leading-[130%]">
-              Find answers to common questions about AcademiaHub
+              Find answers to common questions about IvomoHub
             </p>
           </header>
         )}

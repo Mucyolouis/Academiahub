@@ -27,13 +27,13 @@ export function VerificationEmail({
   return (
     <Html>
       <Head />
-      <Preview>Your AcademiaHub verification code is {code}</Preview>
+      <Preview>Your IvomoHub verification code is {code}</Preview>
       <Body style={body}>
         <Container style={container}>
           <Section style={header}>
             <Img
               src={LOGO_URL}
-              alt="AcademiaHub"
+              alt="IvomoHub"
               width="220"
               style={logo}
             />
@@ -54,7 +54,7 @@ export function VerificationEmail({
               This code will expire in <strong>{expiresInMinutes} minutes</strong>.
             </Text>
             <Text style={hint}>
-              If you didn&apos;t create an account with AcademiaHub, you can safely
+              If you didn&apos;t create an account with IvomoHub, you can safely
               ignore this email.
             </Text>
           </Section>
@@ -62,7 +62,7 @@ export function VerificationEmail({
           <Section style={footer}>
             <Hr style={divider} />
             <Text style={footerText}>
-              This is an automated message from AcademiaHub. Please do not reply.
+              This is an automated message from IvomoHub. Please do not reply.
             </Text>
           </Section>
         </Container>

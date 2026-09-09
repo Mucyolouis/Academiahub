@@ -17,7 +17,7 @@ const AcceptableUsePolicy = () => {
         {/* Header Section */}
         <header className="border-b border-slate-100 p-8 md:p-12 bg-white">
           <h1 className="text-3xl font-bold text-slate-900">
-            AcademiaHub Africa
+            IvomoHub Africa
           </h1>
           <h2 className="text-xl font-semibold text-slate-700 mt-1">
             Acceptable Use Policy
@@ -54,7 +54,7 @@ const AcceptableUsePolicy = () => {
             <section>
               <p>
                 This Acceptable Use Policy (“AUP”) governs how all users may use
-                the AcademiaHub Africa platform. It supplements our Terms of
+                the IvomoHub Africa platform. It supplements our Terms of
                 Service and Privacy Policy. All users must comply with this AUP
                 as a condition of access.
               </p>
@@ -172,7 +172,7 @@ const AcceptableUsePolicy = () => {
                 4. Community Standards
               </h2>
               <p className="mb-4 text-slate-700">
-                AcademiaHub Africa fosters a respectful and inclusive academic
+                IvomoHub Africa fosters a respectful and inclusive academic
                 community. Users must:
               </p>
               <ul className="list-disc ml-6 space-y-2 text-slate-700">
@@ -186,7 +186,7 @@ const AcceptableUsePolicy = () => {
                 </li>
                 <li>
                   Not impersonate other researchers, institutions, or
-                  AcademiaHub Africa staff
+                  IvomoHub Africa staff
                 </li>
               </ul>
             </section>
@@ -211,7 +211,7 @@ const AcceptableUsePolicy = () => {
                 </li>
                 <li>
                   Designating a compliance contact person accessible to
-                  AcademiaHub Africa
+                  IvomoHub Africa
                 </li>
               </ul>
             </section>
@@ -247,10 +247,10 @@ const AcceptableUsePolicy = () => {
               <p>
                 To report an AUP violation, contact us at:{" "}
                 <a
-                  href="mailto:support@mail.academiahubafrica.org"
+                  href="mailto:support@mail.ivomohubafrica.org"
                   className="text-blue-600 hover:underline"
                 >
-                  support@mail.academiahubafrica.org
+                  support@mail.ivomohubafrica.org
                 </a>
                 . We take all reports seriously and will investigate them
                 promptly and confidentially.

@@ -94,7 +94,7 @@ const ResetYourPasswordContent = () => {
             >
               <Image
                 src="/assets/images/academialogo.png"
-                alt="AcademiaHub Logo"
+                alt="IvomoHub Logo"
                 width={56}
                 height={56}
                 className="object-contain mx-auto"

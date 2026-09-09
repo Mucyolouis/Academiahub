@@ -1,5 +1,5 @@
 {
-  "name": "academiahub",
+  "name": "ivomohub",
   "private": true,
   "workspaces": [
     "frontend",

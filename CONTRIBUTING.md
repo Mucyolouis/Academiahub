@@ -1,4 +1,4 @@
-# Welcome, AcademiaHubAfrica Contributor
+# Welcome, IvomoHubAfrica Contributor
 
 [Setting Up the Development Environment](#setting-up-the-development-environment)
 
@@ -14,7 +14,7 @@
 2. In your terminal, run the `git clone` command with the forked repository's URL, e.g.
 
     ```bash
-    git clone https://github.com/JohnDoe/Academiahub.git
+    git clone https://github.com/JohnDoe/Ivomohub.git
     ```
 
     This creates a local repository on your machine.
@@ -36,10 +36,10 @@
 5. Run `git remote -v` to verify. You should see this.
 
     ```bash
-    origin    https://github.com/JohnDoe/Academiahub.git (fetch)
-    origin    https://github.com/JohnDoe/Academiahub.git (push)
-    upstream  https://github.com/AcademiahubAfrica/Academiahub.git (fetch)
-    upstream  https://github.com/AcademiahubAfrica/Academiahub.git (push)
+    origin    https://github.com/JohnDoe/Ivomohub.git (fetch)
+    origin    https://github.com/JohnDoe/Ivomohub.git (push)
+    upstream  https://github.com/IvomoHubAfrica/IvomoHub.git (fetch)
+    upstream  https://github.com/IvomoHubAfrica/IvomoHub.git (push)
     ```
 
     *N/B*: If the origin does not show the forked repository's URL, use the command below to add it and then run `git remote -v` again to verify.

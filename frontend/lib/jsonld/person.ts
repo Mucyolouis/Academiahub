@@ -185,5 +185,16 @@ export const personsJsonLd = {
       },
       sameAs: ["http://linkedin.com/in/oluwaseyi-omolehin-0229a61a3"],
     },
+    
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/#louis-mucyo`,
+      name: "Louis Mucyo",
+      url: "http://linkedin.com/in/louis-mucyo",
+      affiliation: {
+        "@id": `${siteUrl}/#organization`,
+      },
+      sameAs: ["http://linkedin.com/in/louis-mucyo"],
+    },
   ],
 };

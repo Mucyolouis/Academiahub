@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import EditProfileForm from "@/components/user/profile/EditProfileForm";
 
 export const metadata = {
-  title: "Edit Profile | AcademiaHub",
+  title: "Edit Profile | IvomoHub",
 };
 
 const EditProfilePage = async () => {

@@ -52,7 +52,7 @@ const LandingAboutUs = () => {
                   </p>
                 </li>
               </ul>
-              <Link href={'/about-us'} aria-label="Learn more about AcademiaHub">
+              <Link href={'/about-us'} aria-label="Learn more about IvomoHub">
                 <Button variant={"default"} size={"lg"} className="w-68 h-11">
                   Learn More
                 </Button>

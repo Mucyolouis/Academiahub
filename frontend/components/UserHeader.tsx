@@ -41,9 +41,9 @@ const UserHeader = ({ userInfoToShare }: UserHeaderProps) => {
   // states and data for sharing profile
   const [showShareDialog, setShowShareDialog] = useState(false);
   const shareData = {
-    title: `${userInfoToShare?.name} on Academia Hub Africa`,
-    text: `Check out my academic profile on Academia Hub Africa. Connect with me and explore my latest research and publications.`,
-    url: `https://academiahubafrica.org/profile/${userInfoToShare?.id}`,
+    title: `${userInfoToShare?.name} on Ivomo Hub Africa`,
+    text: `Check out my academic profile on Ivomo Hub Africa. Connect with me and explore my latest research and publications.`,
+    url: `https://ivomohubafrica.org/profile/${userInfoToShare?.id}`,
   };
 
   async function onShare() {

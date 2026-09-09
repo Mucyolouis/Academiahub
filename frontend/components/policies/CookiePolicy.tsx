@@ -15,7 +15,7 @@ const CookiePolicy = () => {
         {/* Header Section */}
         <header className="border-b border-slate-100 p-8 md:p-12 bg-white">
           <h1 className="text-3xl font-bold text-slate-900">
-            AcademiaHub Africa
+            IvomoHub Africa
           </h1>
           <h2 className="text-xl font-semibold text-slate-700 mt-1">
             Cookie Policy
@@ -51,7 +51,7 @@ const CookiePolicy = () => {
           <main className="flex-1 p-8 md:p-12 leading-relaxed space-y-10 bg-white">
             <section>
               <p>
-                This Cookie Policy explains how AcademiaHub Africa uses cookies
+                This Cookie Policy explains how IvomoHub Africa uses cookies
                 and similar tracking technologies on our platform. It should be
                 read together with our Privacy Policy.
               </p>
@@ -181,10 +181,10 @@ const CookiePolicy = () => {
               <p>
                 For questions about our use of cookies, email:{" "}
                 <a
-                  href="mailto:support@mail.academiahubafrica.org"
+                  href="mailto:support@mail.ivomohubafrica.org"
                   className="text-blue-600 hover:underline"
                 >
-                  support@mail.academiahubafrica.org
+                  support@mail.ivomohubafrica.org
                 </a>
               </p>
             </section>

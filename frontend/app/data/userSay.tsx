@@ -2,7 +2,7 @@ export const userSay = [
   {
     id: 1,
     name: "Temitayo Bakare",
-    text: "AcademiaHub has been instrumental in my research. The quality of publications available is exceptional, and I've connected with researchers worldwide. It's truly a game-changer for academic collaboration."
+    text: "IvomoHub has been instrumental in my research. The quality of publications available is exceptional, and I've connected with researchers worldwide. It's truly a game-changer for academic collaboration."
   },
   {
     id: 2,
@@ -12,6 +12,6 @@ export const userSay = [
   {
     id: 3,
     name: "Kareem Jones",
-    text: "The community aspect of AcademiaHub sets it apart. I've collaborated on multiple publications and the feedback system helps improve the quality of academic work across the board."
+    text: "The community aspect of IvomoHub sets it apart. I've collaborated on multiple publications and the feedback system helps improve the quality of academic work across the board."
   },
 ]

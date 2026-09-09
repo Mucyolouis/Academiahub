@@ -63,8 +63,8 @@ const ResearchCard = ({
     useIsTruncated<HTMLHeadingElement>();
   const shareData = {
     title: `New Research: ${data?.title}`,
-    text: `Check out this latest publication by ${data?.author?.name} on Academia Hub Africa. It explores key insights into ${data?.title}.`,
-    url: `https://academiahubafrica.org/publication/${data?.id}`,
+    text: `Check out this latest publication by ${data?.author?.name} on Ivomo Hub Africa. It explores key insights into ${data?.title}.`,
+    url: `https://ivomohubafrica.org/publication/${data?.id}`,
   };
 
   async function onShare() {

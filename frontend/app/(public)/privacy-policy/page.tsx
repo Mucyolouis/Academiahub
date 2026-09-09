@@ -4,7 +4,7 @@ import PrivacyPolicy from "../../../components/policies/PrivacyDocument";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Learn how AcademiaHub Africa collects, protects, and manages your personal data in compliance with the Nigeria Data Protection Act (NDPA) and African Union frameworks.",
+    "Learn how IvomoHub Africa collects, protects, and manages your personal data in compliance with the Nigeria Data Protection Act (NDPA) and African Union frameworks.",
 };
 export default function PrivacyPolicyPage() {
   return (

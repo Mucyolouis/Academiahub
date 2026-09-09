@@ -25,13 +25,13 @@ export function PasswordResetEmail({ resetUrl }: PasswordResetEmailProps) {
   return (
     <Html>
       <Head />
-      <Preview>Reset your AcademiaHub password</Preview>
+      <Preview>Reset your IvomoHub password</Preview>
       <Body style={body}>
         <Container style={container}>
           <Section style={header}>
             <Img
               src={LOGO_URL}
-              alt="AcademiaHub"
+              alt="IvomoHub"
               width="220"
               style={logo}
             />
@@ -70,14 +70,14 @@ export function PasswordResetEmail({ resetUrl }: PasswordResetEmailProps) {
             <Text style={footerText}>
               Need help? Contact us at{" "}
               <Link
-                href="mailto:support@mail.academiahubafrica.org"
+                href="mailto:support@mail.ivomohubafrica.org"
                 style={footerLink}
               >
-                support@mail.academiahubafrica.org
+                support@mail.ivomohubafrica.org
               </Link>
             </Text>
             <Text style={copyright}>
-              © 2026 Academia Hub Africa. All rights reserved.
+              © 2026 Ivomo Hub Africa. All rights reserved.
             </Text>
           </Section>
         </Container>

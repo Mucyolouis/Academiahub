@@ -79,7 +79,7 @@ const Footer = () => {
           <div className="relative w-39.5 h-7.25 mb-6.25">
             <Image
               src={"/assets/images/logo.png"}
-              alt="AcademiaHub logo"
+              alt="IvomoHub logo"
               fill
               sizes="158px"
               loading="lazy"
@@ -93,10 +93,10 @@ const Footer = () => {
             <div className="flex items-center gap-2  mb-4">
               <Mail size={16} strokeWidth={1.5} className="shrink-0" />
               <a
-                href="mailto:support@mail.academiahubafrica.org"
+                href="mailto:support@mail.ivomohubafrica.org"
                 className="text-sm lg:text-base leading-4.5"
               >
-                support@mail.academiahubafrica.org
+                support@mail.ivomohubafrica.org
               </a>
             </div>
           </div>
@@ -153,7 +153,7 @@ const Footer = () => {
           <div className="flex items-center gap-2">
             <Input
               className="pl-4 rounded-2xl w-[70%] "
-              placeholder="Ochife@Mustapha.com"
+              placeholder="umukobwa@mail.com"
             />
             <Button className="rounded-2xl">Subscribe</Button>
           </div>
@@ -164,33 +164,33 @@ const Footer = () => {
       <div className="w-full flex flex-col md:flex-row  items-center gap-4">
         <div className="flex items-center gap-3">
           <Link
-            href="https://www.linkedin.com/company/academiahub-africa/"
+            href="https://www.linkedin.com/company/ivomohub-africa/"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="AcademiaHub on LinkedIn"
+            aria-label="IvomoHub on LinkedIn"
           >
             <AiFillLinkedin className="text-[26px]" aria-hidden="true" />
           </Link>
           <Link
-            href="https://www.instagram.com/academiahubafrica"
+            href="https://www.instagram.com/ivomohubafrica"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="AcademiaHub on Instagram"
+            aria-label="IvomoHub on Instagram"
           >
             <AiFillInstagram className="text-[26px]" aria-hidden="true" />
           </Link>
           <Link
-            href="https://x.com/Academiahub_A"
+            href="https://x.com/Ivomohub_A"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="AcademiaHub on X (Twitter)"
+            aria-label="IvomoHub on X (Twitter)"
           >
             <FaXTwitter className="text-[26px]" aria-hidden="true" />
           </Link>
         </div>
 
         <p className="font-normal mx-auto  text-sm text-center mt-1 opacity-80">
-          ©{currentYear} AcademiaHubAfrica. All rights reserved.
+          ©{currentYear} IvomoHubAfrica. All rights reserved.
         </p>
       </div>
     </footer>

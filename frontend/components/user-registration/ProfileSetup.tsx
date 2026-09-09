@@ -84,7 +84,7 @@ const ProfileSetup = () => {
             <div className="flex flex-col items-center justify-center gap-3 mb-6 cursor-pointer" onClick={() => router.push("/")}>
               <Image 
                 src="/assets/images/academialogo.png" 
-                alt="AcademiaHub Logo" 
+                alt="IvomoHub Logo" 
                 className="h-12 w-auto"
                 width={48}
                 height={48}
@@ -92,7 +92,7 @@ const ProfileSetup = () => {
               <div>
                 <Image 
                   src="/assets/images/Logoimage.png" 
-                  alt="AcademiaHub Logo Text" 
+                  alt="IvomoHub Logo Text" 
                   className="h-12 w-auto"
                   width={150}
                   height={48}

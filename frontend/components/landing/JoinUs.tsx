@@ -8,7 +8,7 @@ const JoinUs = () => {
        <div className='max-w-147 lg:max-w-260 w-full flex flex-col justify-center items-center'>
           <header className='max-w-115 lg:max-w-full'>
             <h2 className='font-medium text-lg leading-[130%] text-center text-white mt-2 md:font-semibold md:text-4xl'>Your Academic Success Starts Here</h2>
-            <p className='font-normal text-sm leading-[130%] text-center text-white mt-2 md:font-medium md:text-[20px]'>Join the large community of researchers who trust AcademiaHub with their academic research needs.</p>
+            <p className='font-normal text-sm leading-[130%] text-center text-white mt-2 md:font-medium md:text-[20px]'>Join the large community of researchers who trust IvomoHub with their academic research needs.</p>
           </header>
 
           <div className='flex flex-col justify-center items-center mt-10 gap-2 sm:flex-row'>

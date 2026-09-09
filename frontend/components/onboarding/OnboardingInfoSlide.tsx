@@ -43,7 +43,7 @@ export default function OnboardingInfoSlide({
           <div className="mb-12">
             <Image
               src="/assets/images/onboarding/onboarding-logo.svg"
-              alt="AcademiaHub — Knowledge, Collaboration and Growth."
+              alt="IvomoHub — Knowledge, Collaboration and Growth."
               width={284}
               height={69}
               className="w-auto"
@@ -53,7 +53,7 @@ export default function OnboardingInfoSlide({
           {/* Content */}
           <div className="max-w-140.75">
             <h1 className="text-2xl lg:text-3xl font-bold text-primary mb-6">
-              Welcome to AcademiaHub
+              Welcome to IvomoHub
             </h1>
 
             {/* Progress bar */}
@@ -115,7 +115,7 @@ export default function OnboardingInfoSlide({
 
         {/* Footer */}
         <p className="text-xs text-gray-900 mt-auto relative z-10">
-          &copy; 2026 Academia Hub Africa. All rights reserved.
+          &copy; 2026 Ivomo Hub Africa. All rights reserved.
         </p>
       </div>
 

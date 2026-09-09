@@ -3,14 +3,14 @@ import { Metadata } from "next";
 
 export const rootLayoutMetaData: Metadata = {
   title: {
-    default: "AcademiaHub | Africa’s Academic Collaboration Platform",
-    template: "%s | AcademiaHub",
+    default: "IvomoHub | Africa’s Academic Collaboration Platform",
+    template: "%s | IvomoHub",
   },
 
   description:
-    "AcademiaHub Africa is a comprehensive academic ecosystem that connects students, lecturers, and researchers across African universities. The platform integrates a knowledge marketplace, collaborative research tools, an academic social network, and career development opportunities to advance scholarship, innovation, and professional growth across the continent.",
+    "IvomoHub Africa is a comprehensive academic ecosystem that connects students, lecturers, and researchers across African universities. The platform integrates a knowledge marketplace, collaborative research tools, an academic social network, and career development opportunities to advance scholarship, innovation, and professional growth across the continent.",
   keywords: [
-    "AcademiaHub",
+    "IvomoHub",
 
     "monetize lecture notes Africa",
     "sell academic research Africa",
@@ -56,13 +56,13 @@ export const rootLayoutMetaData: Metadata = {
     "collaborative research tools for African universities",
     "secure academic marketplace for students",
     "pan-African digital research infrastructure",
-    "AcademiaHub Africa ecosystem",
-    "Academia Hub Africa marketplace",
-    "AcademiaHub pan-African platform",
-    "AcademiaHub Africa research network",
-    "AcademiaHub academic economy",
-    "AcademiaHub knowledge monetization",
-    "AcademiaHub student earning platform",
+    "IvomoHub Africa ecosystem",
+    "Ivomo Hub Africa marketplace",
+    "IvomoHub pan-African platform",
+    "IvomoHub Africa research network",
+    "IvomoHub academic economy",
+    "IvomoHub knowledge monetization",
+    "IvomoHub student earning platform",
 
     // Marketplace & Monetization Features
     "academic knowledge marketplace Africa",
@@ -115,10 +115,10 @@ export const rootLayoutMetaData: Metadata = {
   ],
   category: "Education",
 
-  applicationName: "AcademiaHub",
+  applicationName: "IvomoHub",
 
-  creator: "AcademiaHub Team",
-  publisher: "AcademiaHub Africa",
+  creator: "IvomoHub Team",
+  publisher: "IvomoHub Africa",
 
   metadataBase: new URL(siteUrl),
   alternates: {
@@ -194,6 +194,10 @@ export const rootLayoutMetaData: Metadata = {
       name: "Omolehin Oluwaseyi Daniel",
       url: "http://linkedin.com/in/oluwaseyi-omolehin-0229a61a3",
     },
+    {
+      name: "Louis Mucyo",
+      url: "http://linkedin.com/in/louis-mucyo",
+    }
   ],
 
   robots: {
@@ -209,33 +213,33 @@ export const rootLayoutMetaData: Metadata = {
   },
 
   openGraph: {
-    title: "AcademiaHub | Africa’s Academic Collaboration Platform",
+    title: "IvomoHub | Africa’s Academic Collaboration Platform",
     description:
       "A unified academic ecosystem connecting students, lecturers, and researchers across Africa through research collaboration, knowledge exchange, and career development.",
     url: siteUrl,
-    siteName: "AcademiaHub",
+    siteName: "IvomoHub",
     locale: "en_US",
     type: "website",
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "AcademiaHub | Africa’s Academic Collaboration Platform",
+    title: "IvomoHub | Africa’s Academic Collaboration Platform",
     description:
       "Connecting Africa’s students, lecturers, and researchers through collaborative research, knowledge sharing, and academic career development.",
-    creator: "@Academiahub_A",
+    creator: "@Ivomohub_A",
   },
 };
 
 export const exploreMetadata: Metadata = {
   title: "Explore",
   description:
-    "Browse and discover research, resources, and collaborators across African universities on AcademiaHub.",
+    "Browse and discover research, resources, and collaborators across African universities on IvomoHub.",
   alternates: { canonical: "/explore" },
   openGraph: {
-    title: "Explore | AcademiaHub",
+    title: "Explore | IvomoHub",
     description:
-      "Browse and discover research, resources, and collaborators across African universities on AcademiaHub.",
+      "Browse and discover research, resources, and collaborators across African universities on IvomoHub.",
     url: `${siteUrl}/explore`,
     type: "website",
   },
@@ -244,12 +248,12 @@ export const exploreMetadata: Metadata = {
 export const featuresMetadata: Metadata = {
   title: "Features",
   description:
-    "Learn about AcademiaHub's tools: collaborative research, knowledge marketplace, academic networking, and career development features.",
+    "Learn about IvomoHub's tools: collaborative research, knowledge marketplace, academic networking, and career development features.",
   alternates: { canonical: "/features" },
   openGraph: {
-    title: "Features | AcademiaHub",
+    title: "Features | IvomoHub",
     description:
-      "Learn about AcademiaHub's tools: collaborative research, knowledge marketplace, academic networking, and career development features.",
+      "Learn about IvomoHub's tools: collaborative research, knowledge marketplace, academic networking, and career development features.",
     url: `${siteUrl}/features`,
     type: "website",
   },
@@ -258,12 +262,12 @@ export const featuresMetadata: Metadata = {
 export const howItWorksMetadata: Metadata = {
   title: "How it works",
   description:
-    "Understand how AcademiaHub connects students, lecturers, and researchers to collaborate, learn, and grow across Africa.",
+    "Understand how IvomoHub connects students, lecturers, and researchers to collaborate, learn, and grow across Africa.",
   alternates: { canonical: "/how-it-works" },
   openGraph: {
-    title: "How it works | AcademiaHub",
+    title: "How it works | IvomoHub",
     description:
-      "Understand how AcademiaHub connects students, lecturers, and researchers to collaborate, learn, and grow across Africa.",
+      "Understand how IvomoHub connects students, lecturers, and researchers to collaborate, learn, and grow across Africa.",
     url: `${siteUrl}/how-it-works`,
     type: "website",
   },
@@ -272,12 +276,12 @@ export const howItWorksMetadata: Metadata = {
 export const aboutUsMetadata: Metadata = {
   title: "About us",
   description:
-    "Learn about AcademiaHub, our mission to strengthen academic collaboration across Africa, and the team behind the platform.",
+    "Learn about IvomoHub, our mission to strengthen academic collaboration across Africa, and the team behind the platform.",
   alternates: { canonical: "/about-us" },
   openGraph: {
-    title: "About us | AcademiaHub",
+    title: "About us | IvomoHub",
     description:
-      "Learn about AcademiaHub, our mission to strengthen academic collaboration across Africa, and the team behind the platform.",
+      "Learn about IvomoHub, our mission to strengthen academic collaboration across Africa, and the team behind the platform.",
     url: `${siteUrl}/about-us`,
     type: "website",
   },
@@ -286,12 +290,12 @@ export const aboutUsMetadata: Metadata = {
 export const faqsMetadata: Metadata = {
   title: "FAQs",
   description:
-    "Find answers to common questions about AcademiaHub, how to use the platform, and account or content-related guidance.",
+    "Find answers to common questions about IvomoHub, how to use the platform, and account or content-related guidance.",
   alternates: { canonical: "/faqs" },
   openGraph: {
-    title: "FAQs | AcademiaHub",
+    title: "FAQs | IvomoHub",
     description:
-      "Find answers to common questions about AcademiaHub, how to use the platform, and account or content-related guidance.",
+      "Find answers to common questions about IvomoHub, how to use the platform, and account or content-related guidance.",
     url: `${siteUrl}/faqs`,
     type: "website",
   },

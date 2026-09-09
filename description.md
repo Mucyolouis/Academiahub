@@ -1,4 +1,4 @@
-# AcademiaHub Africa — Complete Project Description
+# IvomoHub Africa — Complete Project Description
 
 > A teaching-oriented walkthrough of the entire codebase: what it is, how it is
 > structured, how every feature works, and how all the pieces talk to each other.
@@ -7,7 +7,7 @@
 
 ## Table of Contents
 
-1. [What Is AcademiaHub?](#1-what-is-academiahub)
+1. [What Is IvomoHub?](#1-what-is-ivomohub)
 2. [High-Level Architecture](#2-high-level-architecture)
 3. [Tech Stack](#3-tech-stack)
 4. [Repository Layout](#4-repository-layout)
@@ -23,9 +23,9 @@
 
 ---
 
-## 1. What Is AcademiaHub?
+## 1. What Is IvomoHub?
 
-**AcademiaHub Africa** is an academic platform that connects students,
+**IvomoHub Africa** is an academic platform that connects students,
 lecturers, and researchers across African universities. It combines:
 
 - **A knowledge marketplace** — users upload academic documents (research
@@ -127,7 +127,7 @@ Key architectural ideas to teach:
 ## 4. Repository Layout
 
 ```
-Academiahub/
+Ivomohub/
 ├── package.json              # npm workspaces root ("frontend", "backend")
 ├── start.cmd                 # Windows helper: opens two terminals, runs both dev servers
 ├── README.md                 # One-paragraph mission statement
@@ -461,7 +461,7 @@ Helpers: `generateVerificationCode()` (random 6 digits), 5-minute code expiry,
 | Endpoint | What it does |
 |---|---|
 | `documents` GET | Feed with `authorId`, `category`, `q` (search title/description/institution/author name), `sort` (`recent`/`oldest`/`popular` by likes), `page`+`limit` pagination. For logged-in callers it batch-fetches Like/Save rows and decorates each doc with `isLiked`/`isSaved`. Returns `{documents, pagination}`. |
-| `documents` POST | Publish: requires session; validates required fields, maps category string→enum, **validates `fileUrl` really points at this Cloudinary cloud under `academiahub/documents/`**, enforces ≤10 MB, creates the Document. |
+| `documents` POST | Publish: requires session; validates required fields, maps category string→enum, **validates `fileUrl` really points at this Cloudinary cloud under `ivomohub/documents/`**, enforces ≤10 MB, creates the Document. |
 | `documents/[id]` GET | Single doc + author + caller's `isLiked`/`isSaved`. |
 | `documents/[id]` DELETE | Author-only. Destroys the Cloudinary asset best-effort (infers resource type from URL), then deletes the row (cascades clean up children), revalidates `/dashboard`. |
 | `documents/[id]/like` POST/DELETE | Like/unlike inside a `$transaction` that also increments/decrements the counter. On like, `after()` (post-response background work) creates a LIKE notification for the author (unless self-like) and pushes it via the internal socket bridge. |
@@ -487,7 +487,7 @@ is wrapped in React `cache()` so multiple components in one render share it.
 | Endpoint | What it does |
 |---|---|
 | `profile/me` GET | Own profile + computed stats (uploads, total downloads, total likes, saves received). |
-| `profile/me` PUT | Updates name/avatar/bio. Avatar URLs are validated to be this cloud's `academiahub/avatars/<userId>` path. Upserts the Profile row in a transaction with the User update. |
+| `profile/me` PUT | Updates name/avatar/bio. Avatar URLs are validated to be this cloud's `ivomohub/avatars/<userId>` path. Upserts the Profile row in a transaction with the User update. |
 | `profile/[userId]` GET | Someone else's profile + same computed stats. |
 | `user/change-password` PUT | Zod-validated; blocks OAuth accounts; verifies current password (argon2) before saving the new hash. |
 | `user/privacy` GET/PATCH | Reads/toggles `allowMessages` and `showInSearch` (whitelisted field names only). |
@@ -495,7 +495,7 @@ is wrapped in React `cache()` so multiple components in one render share it.
 #### Uploads
 | Endpoint | What it does |
 |---|---|
-| `sign-cloudinary-params` POST | Body `{kind: "avatar"|"document"}`. Returns a **signature** for a direct browser→Cloudinary upload, with strict per-kind policies: avatars → folder `academiahub/avatars`, public_id = userId (overwrite+invalidate), eager transform `c_fill,g_auto,w_400,h_400,f_auto,q_auto`, jpg/png/webp, 4 MB cap; documents → folder `academiahub/documents`, pdf only, 10 MB cap. The API secret never leaves the server. |
+| `sign-cloudinary-params` POST | Body `{kind: "avatar"|"document"}`. Returns a **signature** for a direct browser→Cloudinary upload, with strict per-kind policies: avatars → folder `ivomohub/avatars`, public_id = userId (overwrite+invalidate), eager transform `c_fill,g_auto,w_400,h_400,f_auto,q_auto`, jpg/png/webp, 4 MB cap; documents → folder `ivomohub/documents`, pdf only, 10 MB cap. The API secret never leaves the server. |
 
 Client helper `lib/cloudinary/upload.ts` posts the signed FormData via XHR so
 it can report **upload progress %**.

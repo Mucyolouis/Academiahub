@@ -10,7 +10,7 @@ function loadLogRocket() {
   if (process.env.NODE_ENV !== "production") return null;
   if (!logRocketPromise) {
     logRocketPromise = import("logrocket").then((m) => {
-      m.default.init("jgsvfu/academiahub");
+      m.default.init("jgsvfu/ivomohub");
       return m.default;
     });
   }

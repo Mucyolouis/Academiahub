@@ -2,9 +2,9 @@ import AcceptableUsePolicy from "@/components/policies/AcceptUsePolicy";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Acceptable Use Policy | AcademiaHub Africa",
+  title: "Acceptable Use Policy | IvomoHub Africa",
   description:
-    "Guidelines and standards for research, content, and community conduct on the AcademiaHub Africa platform.",
+    "Guidelines and standards for research, content, and community conduct on the IvomoHub Africa platform.",
 };
 export default function UsePolicyPage() {
   return (

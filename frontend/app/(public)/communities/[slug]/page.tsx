@@ -22,7 +22,7 @@ export async function generateMetadata({
   });
 
   return {
-    title: community ? `${community.name} – Academia Hub Africa` : "Community",
+    title: community ? `${community.name} – Ivomo Hub Africa` : "Community",
     description: community?.description,
   };
 }

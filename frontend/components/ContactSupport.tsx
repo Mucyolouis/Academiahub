@@ -9,7 +9,7 @@ const ContactSupport = () => {
           Our support team is here to help you with any questions or concerns
         </p>
         <a
-          href="mailto:support@mail.academiahubafrica.org"
+          href="mailto:support@mail.ivomohubafrica.org"
           className="inline-block bg-white text-blue-900 font-medium text-lg px-16 py-5 rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200"
         >
           Contact Support

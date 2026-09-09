@@ -11,7 +11,7 @@ const Header = () => {
         src={logoIcon}
         width={120}
         height={120}
-        alt="academia hub's logo icon"
+        alt="IvomoHub's logo icon"
         style={{ width: "auto", height: "auto" }}
       />
     </div>

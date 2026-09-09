@@ -7,7 +7,7 @@ const BrandedLoader = () => {
       <div className="relative h-12 w-44 md:h-14 md:w-62">
         <Image
           src="/assets/images/Logoimage.png"
-          alt="AcademiaHub"
+          alt="IvomoHub"
           fill
           priority
           sizes="(min-width: 768px) 248px, 176px"

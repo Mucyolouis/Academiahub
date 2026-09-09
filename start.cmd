@@ -1,15 +1,15 @@
 @echo off
-title AcademiaHub
+title IvomoHub
 echo ========================================
-echo   AcademiaHub - Starting Services
+echo   IvomoHub - Starting Services
 echo ========================================
 
 echo.
 echo [1/2] Starting Backend...
-start "AcademiaHub Backend" cmd /k "cd backend && npm run dev"
+start "IvomoHub Backend" cmd /k "cd backend && npm run dev"
 
 echo [2/2] Starting Frontend...
-start "AcademiaHub Frontend" cmd /k "cd frontend && npm run dev"
+start "IvomoHub Frontend" cmd /k "cd frontend && npm run dev"
 
 echo.
 echo Both services are starting in separate windows.

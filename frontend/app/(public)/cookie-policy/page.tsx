@@ -2,9 +2,9 @@ import CookiePolicy from "@/components/policies/CookiePolicy";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Cookie Policy | AcademiaHub Africa",
+  title: "Cookie Policy | IvomoHub Africa",
   description:
-    "Learn how AcademiaHub Africa uses cookies and tracking technologies to improve your research experience and maintain platform security.",
+    "Learn how IvomoHub Africa uses cookies and tracking technologies to improve your research experience and maintain platform security.",
 };
 export default function CookiePolicyPage() {
   return (

@@ -37,7 +37,7 @@ const CheckEmailContent = () => {
 
       {/* Footer */}
       <p className="label text-foreground mt-16">
-        © 2026 Academia Hub Africa. All rights reserved.
+        © 2026 Ivomo Hub Africa. All rights reserved.
       </p>
     </div>
   );

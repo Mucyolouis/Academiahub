@@ -5,7 +5,7 @@ export const websiteJsonLd = {
   "@type": "WebSite",
   "@id": `${siteUrl}/#website`,
   url: siteUrl,
-  name: "AcademiaHub",
+  name: "IvomoHub",
   publisher: {
     "@id": `${siteUrl}/#organization`,
   },

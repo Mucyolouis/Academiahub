@@ -22,7 +22,7 @@ const transporter: Transporter | null = smtpConfig.auth.user && smtpConfig.auth.
   : null;
 
 const fromAddress = process.env.MAIL_FROM_EMAIL || process.env.MAIL_USERNAME || "noreply@localhost";
-const fromName = process.env.MAIL_FROM_NAME || "AcademiaHub";
+const fromName = process.env.MAIL_FROM_NAME || "IvomoHub";
 const from = `"${fromName}" <${fromAddress}>`;
 
 function missingConfigError(): Error {
@@ -41,7 +41,7 @@ export async function sendVerificationEmail(email: string, code: string) {
   await transporter.sendMail({
     from,
     to: email,
-    subject: "Verify your email - AcademiaHub",
+    subject: "Verify your email - IvomoHub",
     html,
   });
 }
@@ -58,7 +58,7 @@ export async function sendPasswordResetEmail(email: string, token: string) {
   await transporter.sendMail({
     from,
     to: email,
-    subject: "Reset your password - AcademiaHub",
+    subject: "Reset your password - IvomoHub",
     html,
   });
 }

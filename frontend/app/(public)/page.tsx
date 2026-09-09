@@ -25,7 +25,7 @@ export default function Home() {
                 aria-hidden="true"
               />
               <p className="text-xs leading-snug bg-[linear-gradient(90deg,#1e3a8a_0%,#f8bd00_15%,#1e3a8a_36%)] bg-clip-text text-transparent whitespace-nowrap">
-                Welcome to Academiahub
+                Welcome to Ivomohub
               </p>
             </div>
 

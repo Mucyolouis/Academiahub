@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "AcademiaHub Backend",
+  "description": "IvomoHub Backend",
   "license": "ISC",
   "author": "Jucal Asitok",
   "type": "commonjs",

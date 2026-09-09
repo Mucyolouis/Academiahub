@@ -1,9 +1,9 @@
 export const faqData = [
   {
     id: 1,
-    question: "What is AcademiaHub?",
+    question: "What is IvomoHub?",
     answer:
-      "AcademiaHub is an online platform where students, researchers, and professionals can access, share, and publish academic materials. It serves as a central hub for learning resources, publications, and collaboration within the academic community.",
+      "IvomoHub is an online platform where students, researchers, and professionals can access, share, and publish academic materials. It serves as a central hub for learning resources, publications, and collaboration within the academic community.",
   },
   {
     id: 2,
@@ -12,7 +12,7 @@ export const faqData = [
       <div>
         <b className="text-lg">To create an account:</b>
         <ol className="list-decimal list-inside mt-3 space-y-3 ml-2 ">
-          <li>Visit the AcademiaHub website.</li>
+          <li>Visit the IvomoHub website.</li>
           <li>Click on “Sign Up”</li>
           <li>Fill in your basic details (name, email, password)</li>
           <li>Verify your email through the confirmation link.</li>
@@ -23,9 +23,9 @@ export const faqData = [
   },
   {
     id: 3,
-    question: "Is AcademiaHub free to use?",
+    question: "Is IvomoHub free to use?",
     answer:
-      "Yes. AcademiaHub offers free access to browse publications and create an account. Some advanced features may be premium, but the core platform is completely free for users.",
+      "Yes. IvomoHub offers free access to browse publications and create an account. Some advanced features may be premium, but the core platform is completely free for users.",
   },
   {
     id: 4,
@@ -34,7 +34,7 @@ export const faqData = [
       <div>
         <p className="text-lg">
           Every uploaded publication goes through a review process handled by
-          the AcademiaHub moderation team. They check for:
+          the IvomoHub moderation team. They check for:
         </p>
         <ul className="list-disc list-inside mt-6 space-y-3 ml-2 ">
           <li>Originality</li>
@@ -57,7 +57,7 @@ export const faqData = [
     id: 6,
     question: "How is my data protected?",
     answer:
-      "AcademiaHub uses secure encryption methods and strict privacy policies to protect your information. Your personal data is never shared with third parties without consent, and all uploaded files are stored on secure servers",
+      "IvomoHub uses secure encryption methods and strict privacy policies to protect your information. Your personal data is never shared with third parties without consent, and all uploaded files are stored on secure servers",
   },
   {
     id: 7,

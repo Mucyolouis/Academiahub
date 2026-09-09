@@ -4,7 +4,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description:
-    "Read the legally binding terms and conditions for using the AcademiaHub Africa research platform, covering user conduct, intellectual property, and academic integrity.",
+    "Read the legally binding terms and conditions for using the IvomoHub Africa research platform, covering user conduct, intellectual property, and academic integrity.",
 };
 export default function TAndCPage() {
   return (

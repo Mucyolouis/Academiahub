@@ -122,7 +122,7 @@ const Signincontent = () => {
               <div className="h-9 relative md:h-14 md:w-62 w-44.75">
                 <Image
                   src="/assets/images/Logoimage.png"
-                  alt="AcademiaHub Logo Text"
+                  alt="IvomoHub Logo Text"
                   fill
                   sizes="(min-width: 768px) 248px, 179px"
                   priority

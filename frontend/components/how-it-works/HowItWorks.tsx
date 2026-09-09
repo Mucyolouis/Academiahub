@@ -10,7 +10,7 @@ const HowItWorks = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 ">
           <div className="text-center mb-8">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              How AcademiaHub Works
+              How IvomoHub Works
             </h1>
             <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
               Get started in minutes and access thousands of academic resources
