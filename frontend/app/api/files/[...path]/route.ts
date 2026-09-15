@@ -5,6 +5,8 @@ import { UPLOADS_DIR } from "@/lib/storage";
 
 const CONTENT_TYPES: Record<string, string> = {
   ".pdf": "application/pdf",
+  ".doc": "application/msword",
+  ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
   ".png": "image/png",

@@ -29,6 +29,46 @@ enum NotificationType {
   CONNECTION_REQUEST
   CONNECTION_ACCEPTED
   MODERATION
+  MENTORSHIP_REQUEST
+  MENTORSHIP_ACCEPTED
+  MENTOR_PROFILE_APPROVED
+  MENTOR_PROFILE_REJECTED
+  INTERNSHIP_ACCEPTED
+  INTERNSHIP_REJECTED
+}
+
+enum MentorApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  DEACTIVATED
+}
+
+enum MentorshipStatus {
+  PENDING
+  ACTIVE
+  COMPLETED
+  ENDED
+  DECLINED
+}
+
+enum InternshipStatus {
+  OPEN
+  CLOSED
+  FILLED
+}
+
+enum InternshipType {
+  REMOTE
+  ONSITE
+  HYBRID
+}
+
+enum ApplicationStatus {
+  PENDING
+  SHORTLISTED
+  ACCEPTED
+  REJECTED
 }
 
 enum ConnectionStatus {
@@ -109,6 +149,14 @@ model User {
   isSuspended       Boolean          @default(false)
   suspendedAt       DateTime?
   suspendedReason   String?
+  mentorProfile     MentorProfile?
+  mentorshipsRequestsSent    MentorshipRequest[] @relation("mentorshipRequester")
+  mentorshipsRequestsReceived MentorshipRequest[] @relation("mentorshipMentor")
+  mentorshipsAsMentor        Mentorship[]        @relation("mentorshipMentorActive")
+  mentorshipsAsMentee        Mentorship[]        @relation("mentorshipMentee")
+  mentorshipsReviewed        MentorshipReview[]  @relation("mentorshipReviewer")
+  internshipsPosted          Internship[]
+  internshipApplications     InternshipApplication[]
 }
 
 model ProfileVisit {
@@ -364,4 +412,116 @@ model Connection {
   @@unique([userAId, userBId])
   @@index([requesterId])
   @@index([userBId, status])
+}
+
+// ─── Mentorship ──────────────────────────────────────────────────────────
+// A MentorProfile is the "who is a mentor" record. Being a mentor means a
+// user holds an APPROVED profile (admins review applications). It is a
+// capability, not a Role — Role stays USER/ADMIN for access control.
+model MentorProfile {
+  id              String              @id @default(cuid())
+  user            User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String              @unique
+  title           String              // e.g. "Senior Lecturer", "Software Engineer"
+  bio             String              @default("")
+  areas           String              @default("") // JSON array of strings
+  yearsExperience Int                 @default(0)
+  availability    String              @default("") // e.g. "2 hrs/week", "Weekends"
+  status          MentorApprovalStatus @default(PENDING)
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  @@index([status])
+}
+
+// A mentorship request: a mentee asks an approved mentor to take them on.
+model MentorshipRequest {
+  id          String           @id @default(cuid())
+  mentor      User             @relation("mentorshipMentor", fields: [mentorId], references: [id], onDelete: Cascade)
+  mentorId    String
+  requester   User             @relation("mentorshipRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  requesterId String
+  topic       String           @default("") // area they want mentoring in
+  message     String           @default("")
+  status      MentorshipStatus @default(PENDING)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@unique([mentorId, requesterId])
+  @@index([mentorId, status])
+  @@index([requesterId])
+}
+
+// An active/ended mentoring relationship.
+model Mentorship {
+  id          String           @id @default(cuid())
+  mentor      User             @relation("mentorshipMentorActive", fields: [mentorId], references: [id], onDelete: Cascade)
+  mentorId    String
+  mentee      User             @relation("mentorshipMentee", fields: [menteeId], references: [id], onDelete: Cascade)
+  menteeId    String
+  status      MentorshipStatus @default(ACTIVE)
+  topic       String           @default("")
+  startedAt   DateTime         @default(now())
+  endedAt     DateTime?
+  reviews     MentorshipReview[]
+
+  @@index([mentorId])
+  @@index([menteeId])
+}
+
+model MentorshipReview {
+  id            String     @id @default(cuid())
+  mentorship    Mentorship @relation(fields: [mentorshipId], references: [id], onDelete: Cascade)
+  mentorshipId  String
+  reviewer      User       @relation("mentorshipReviewer", fields: [reviewerId], references: [id], onDelete: Cascade)
+  reviewerId    String
+  rating        Int        // 1-5
+  content       String     @default("")
+  createdAt     DateTime   @default(now())
+
+  @@unique([mentorshipId, reviewerId])
+  @@index([mentorshipId])
+}
+
+// ─── Internships ─────────────────────────────────────────────────────────
+model Internship {
+  id                   String                @id @default(cuid())
+  title                String
+  company              String
+  description          String
+  type                 InternshipType        @default(ONSITE)
+  location             String                @default("")
+  duration             String                @default("") // e.g. "3 months"
+  stipend              String                @default("") // free text: "Paid" / "KES 20,000/mo"
+  applicationDeadline  DateTime?
+  postedBy             User                  @relation(fields: [postedById], references: [id], onDelete: Cascade)
+  postedById           String
+  status               InternshipStatus      @default(OPEN)
+  hidden               Boolean               @default(false)
+  hiddenAt             DateTime?
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  applications         InternshipApplication[]
+
+  @@index([postedById])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model InternshipApplication {
+  id           String            @id @default(cuid())
+  internship   Internship        @relation(fields: [internshipId], references: [id], onDelete: Cascade)
+  internshipId String
+  applicant    User              @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+  applicantId  String
+  coverLetter  String
+  resumeUrl    String?
+  resumeName   String?
+  status       ApplicationStatus @default(PENDING)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@unique([internshipId, applicantId])
+  @@index([internshipId])
+  @@index([applicantId])
 }

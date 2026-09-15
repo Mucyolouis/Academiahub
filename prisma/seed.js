@@ -55,6 +55,46 @@ async function main() {
     console.log(`Created: ${created.name} (${created.email}) | Role: ${created.role}`);
   }
 
+  // Approve Alice as a mentor so the mentorship browse page has one mentor.
+  const alice = await prisma.user.findUnique({ where: { email: "alice@example.com" } });
+  if (alice) {
+    await prisma.mentorProfile.upsert({
+      where: { userId: alice.id },
+      update: {},
+      create: {
+        userId: alice.id,
+        title: "Senior Lecturer, Computer Science",
+        bio: "I help students with programming fundamentals, web development and research methodology.",
+        areas: JSON.stringify(["Web Development", "Data Science", "Research Writing"]),
+        yearsExperience: 10,
+        availability: "2 hrs/week",
+        status: "APPROVED",
+      },
+    });
+    console.log("Approved mentor profile for alice@example.com");
+  }
+
+  // Create a sample internship posted by Bob.
+  const bob = await prisma.user.findUnique({ where: { email: "bob@example.com" } });
+  if (bob) {
+    await prisma.internship.upsert({
+      where: { id: "seed-internship-1" },
+      update: {},
+      create: {
+        id: "seed-internship-1",
+        title: "Software Engineering Intern",
+        company: "IvomoHub",
+        description: "Work alongside our engineering team building web applications for African universities. Learn modern JavaScript/TypeScript, databases and APIs while shipping real features.",
+        type: "HYBRID",
+        location: "Nairobi, Kenya",
+        duration: "3 months",
+        stipend: "Paid · KES 25,000/mo",
+        postedById: bob.id,
+      },
+    });
+    console.log("Created sample internship for bob@example.com");
+  }
+
   console.log("\n--- Dummy Credentials ---\n");
   for (const user of users) {
     console.log(`Email: ${user.email}  |  Password: ${user.password}  |  Role: ${user.role}`);

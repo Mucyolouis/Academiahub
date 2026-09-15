@@ -2,11 +2,13 @@ import { type ReactNode } from "react";
 import {
   Bell,
   Bookmark,
+  Briefcase,
   ChartNoAxesColumn,
   CloudDownload,
   CloudUpload,
   Compass,
   FileText,
+  GraduationCap,
   Headset,
   LogOut,
   Mail,
@@ -63,6 +65,16 @@ export const sideLinks: SideLink[] = [
     icon: <UserPlus size={20} strokeWidth={1.5} />,
     label: "Connections",
     link: "/connections",
+  },
+  {
+    icon: <GraduationCap size={20} strokeWidth={1.5} />,
+    label: "Mentorship",
+    link: "/mentorship",
+  },
+  {
+    icon: <Briefcase size={20} strokeWidth={1.5} />,
+    label: "Internships",
+    link: "/internships",
   },
   {
     icon: <CloudUpload size={20} strokeWidth={1.5} />,

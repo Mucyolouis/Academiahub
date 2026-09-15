@@ -76,7 +76,7 @@ export default function NewMessageModal({
             autoFocus
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search by name…"
+            placeholder="Search by name or email…"
             className="pl-8 text-gray-400 border rounded-xl"
           />
         </div>

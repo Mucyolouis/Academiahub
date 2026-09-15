@@ -1,5 +1,14 @@
 import type { LucideIcon } from "lucide-react";
-import { Heart, MessageCircle, ShieldAlert, User, UserCheck, UserPlus } from "lucide-react";
+import {
+  Briefcase,
+  GraduationCap,
+  Heart,
+  MessageCircle,
+  ShieldAlert,
+  User,
+  UserCheck,
+  UserPlus,
+} from "lucide-react";
 
 type IconEntry = {
   Icon: LucideIcon;
@@ -32,6 +41,36 @@ const ICON_MAP: Record<string, IconEntry> = {
     Icon: UserCheck,
     label: "Connection accepted",
     color: "#16a34a",
+  },
+  mentorship_request: {
+    Icon: GraduationCap,
+    label: "Mentorship request",
+    color: "#7c3aed",
+  },
+  mentorship_accepted: {
+    Icon: GraduationCap,
+    label: "Mentorship accepted",
+    color: "#16a34a",
+  },
+  mentor_profile_approved: {
+    Icon: GraduationCap,
+    label: "Mentor profile approved",
+    color: "#16a34a",
+  },
+  mentor_profile_rejected: {
+    Icon: GraduationCap,
+    label: "Mentor profile update",
+    color: "#ea580c",
+  },
+  internship_accepted: {
+    Icon: Briefcase,
+    label: "Internship accepted",
+    color: "#16a34a",
+  },
+  internship_rejected: {
+    Icon: Briefcase,
+    label: "Internship update",
+    color: "#ea580c",
   },
   moderation: {
     Icon: ShieldAlert,

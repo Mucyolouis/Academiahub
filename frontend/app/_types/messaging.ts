@@ -136,7 +136,19 @@ export interface SocketErrorPayload {
 
 export interface NotificationNewPayload {
   id: string;
-  type: "COMMENT" | "LIKE" | "MESSAGE" | "CONNECTION_REQUEST" | "CONNECTION_ACCEPTED" | "MODERATION";
+  type:
+    | "COMMENT"
+    | "LIKE"
+    | "MESSAGE"
+    | "CONNECTION_REQUEST"
+    | "CONNECTION_ACCEPTED"
+    | "MODERATION"
+    | "MENTORSHIP_REQUEST"
+    | "MENTORSHIP_ACCEPTED"
+    | "MENTOR_PROFILE_APPROVED"
+    | "MENTOR_PROFILE_REJECTED"
+    | "INTERNSHIP_ACCEPTED"
+    | "INTERNSHIP_REJECTED";
   message: string;
   link: string | null;
   actorId: string | null;

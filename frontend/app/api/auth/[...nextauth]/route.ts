@@ -22,6 +22,39 @@ declare module "next-auth/jwt" {
   }
 }
 
+// Shared credential verification. Throws a stable error code in place of the
+// NextAuth generic "CredentialsSignin" so UIs can map it to a friendly message.
+type VerifiedUser = Awaited<ReturnType<typeof prisma.user.findFirst>>;
+
+async function verifyCredentials(
+  credentials: { email?: string; password?: string } | undefined,
+): Promise<VerifiedUser> {
+  const user = await prisma.user.findFirst({
+    where: { email: credentials?.email },
+  });
+  if (!user) {
+    throw new Error("No user found with the given email");
+  }
+  if (!credentials?.password) {
+    throw new Error("Password is required");
+  }
+  if (!user.password) {
+    throw new Error("This account uses OAuth. Please sign in with Google or GitHub");
+  }
+  const isValid = await argon2.verify(user.password, credentials.password);
+  if (!isValid) throw new Error("Invalid email or password");
+
+  if (user.isSuspended) {
+    throw new Error("Your account has been suspended. Contact an administrator.");
+  }
+
+  // Check if email is verified
+  if (!user.emailVerified) {
+    throw new Error("EMAIL_NOT_VERIFIED");
+  }
+  return user;
+}
+
 export const authOptions:NextAuthOptions = {
   // Configure one or more authentication providers
   providers: [
@@ -32,33 +65,37 @@ export const authOptions:NextAuthOptions = {
       password: { label: "Password", type: "password" }
     },
     async authorize(credentials) {
-         const user = await prisma.user.findFirst({where:{email:credentials?.email}})
-            if (!user) {
-                throw new Error("No user found with the given email")
-            }
-            if (!credentials?.password) {
-                throw new Error("Password is required")
-            }
-            if (!user.password) {
-                throw new Error("This account uses OAuth. Please sign in with Google or GitHub")
-            }
-            const isValid = await argon2.verify(user.password, credentials.password);
-            if (!isValid) throw new Error("Invalid email or password");
-
-            if (user.isSuspended) {
-                throw new Error("Your account has been suspended. Contact an administrator.")
-            }
-
-            // Check if email is verified
-            if (!user.emailVerified) {
-                throw new Error("EMAIL_NOT_VERIFIED")
-            }
-
         try {
-            return user
+            return await verifyCredentials(credentials);
         } catch (_error) {
             throw new Error("Check your credentials")
         }
+    }
+  }),
+  // Dedicated admin-only credentials flow. The main session cookie is shared
+  // with regular users, but this provider refuses to sign in anyone who is
+  // not an ADMIN, and the signIn callback below re-verifies it server-side.
+  CredentialsProvider({
+    id: "admin-credentials",
+    name: "Admin",
+    credentials: {
+      email: { label: "Email", type: "text" },
+      password: { label: "Password", type: "password" }
+    },
+    async authorize(credentials) {
+      let user;
+      try {
+        user = await verifyCredentials(credentials);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Check your credentials";
+        if (message === "EMAIL_NOT_VERIFIED") throw new Error("ADMIN_EMAIL_NOT_VERIFIED");
+        if (message.includes("suspended")) throw new Error("ADMIN_SUSPENDED");
+        throw new Error("INVALID_ADMIN_CREDENTIALS");
+      }
+      if (!user || user.role !== "ADMIN") {
+        throw new Error("NOT_ADMIN");
+      }
+      return user;
     }
   }),
   GoogleProvider({
@@ -68,6 +105,22 @@ export const authOptions:NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account}) {
+      // Defense in depth: only sign users in through the admin provider if the
+      // DB row really is an ADMIN.
+      if (account?.provider === "admin-credentials") {
+        const dbUser = await prisma.user.findUnique({
+          where: { email: user.email! },
+          select: { role: true, isSuspended: true, emailVerified: true },
+        });
+        if (
+          !dbUser ||
+          dbUser.role !== "ADMIN" ||
+          dbUser.isSuspended ||
+          !dbUser.emailVerified
+        ) {
+          return false;
+        }
+      }
       if (account?.provider === "google") {
         const existingUser = await prisma.user.findFirst({ where: { email: user.email! } });
         if (existingUser?.isSuspended) {

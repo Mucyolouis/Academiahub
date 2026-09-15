@@ -8,7 +8,7 @@ const router = Router();
 
 /**
  * GET /users/search?q=
- * Search for users by name to start a DM.
+ * Search for users by name or email to start a DM / connect.
  * Requires minimum 3 characters. Returns max 10 results.
  * Excludes the requesting user from results.
  */
@@ -32,9 +32,10 @@ router.get(
         where: {
           id: { not: userId },
           showInSearch: true,
-          name: {
-            startsWith: sanitizedQuery,
-          },
+          OR: [
+            { name: { contains: sanitizedQuery } },
+            { email: { contains: sanitizedQuery } },
+          ],
         },
         select: {
           id: true,

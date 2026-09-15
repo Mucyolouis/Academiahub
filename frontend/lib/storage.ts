@@ -2,12 +2,12 @@ import { mkdir, writeFile } from "fs/promises";
 import path from "path";
 import { randomUUID } from "crypto";
 
-export type UploadKind = "avatar" | "document";
+export type UploadKind = "avatar" | "document" | "resume";
 
 export const UPLOADS_DIR = path.join(process.cwd(), "uploads");
 
 interface UploadPolicy {
-  subfolder: "avatars" | "documents";
+  subfolder: "avatars" | "documents" | "resumes";
   maxBytes: number;
   allowedMime: string[];
   extensionsByMime: Record<string, string>;
@@ -29,6 +29,21 @@ const POLICIES: Record<UploadKind, UploadPolicy> = {
     maxBytes: 10 * 1024 * 1024,
     allowedMime: ["application/pdf"],
     extensionsByMime: { "application/pdf": "pdf" },
+  },
+  resume: {
+    subfolder: "resumes",
+    maxBytes: 5 * 1024 * 1024,
+    allowedMime: [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ],
+    extensionsByMime: {
+      "application/pdf": "pdf",
+      "application/msword": "doc",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+        "docx",
+    },
   },
 };
 
@@ -74,7 +89,7 @@ export async function saveUpload(
   const url =
     kind === "avatar"
       ? `/api/files/avatars/${storedName}?v=${Date.now()}`
-      : `/api/files/documents/${storedName}`;
+      : `/api/files/${policy.subfolder}/${storedName}`;
 
   return {
     url,

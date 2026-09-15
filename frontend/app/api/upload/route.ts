@@ -4,7 +4,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { saveUpload, type UploadKind } from "@/lib/storage";
 
 function isUploadKind(value: unknown): value is UploadKind {
-  return value === "avatar" || value === "document";
+  return value === "avatar" || value === "document" || value === "resume";
 }
 
 export async function POST(request: NextRequest) {
